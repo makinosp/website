@@ -1,0 +1,10 @@
+# Security headers applied to all responses
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# Long-cache immutable build assets emitted by Astro (hashed filenames)
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
