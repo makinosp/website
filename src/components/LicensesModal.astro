@@ -1,0 +1,274 @@
+---
+
+---
+
+<dialog
+  id="licenses-modal"
+  aria-labelledby="licenses-modal-title"
+  class="m-auto w-[calc(100%-2rem)] max-w-2xl rounded-2xl border border-slate-200 bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+>
+  <div class="max-h-[80vh] overflow-y-auto p-6 sm:p-8">
+    <div class="mb-6 flex items-start justify-between gap-4">
+      <div>
+        <h2
+          id="licenses-modal-title"
+          class="text-xl font-bold text-slate-900 dark:text-white"
+        >
+          Third-party licenses
+        </h2>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+          This site is built with open source software. Thanks to the
+          maintainers and contributors of these projects.
+        </p>
+      </div>
+      <button
+        id="licenses-close"
+        type="button"
+        aria-label="Close third-party licenses dialog"
+        class="rounded-lg bg-slate-100 p-2 text-slate-600 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-5 w-5"
+          aria-hidden="true"
+        >
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="space-y-6 text-sm">
+      <section>
+        <h3
+          class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+        >
+          Runtime
+        </h3>
+        <ul class="space-y-2">
+          <li>
+            <a
+              href="https://github.com/withastro/astro"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
+              >Astro 7.2.0</a
+            >{" "}
+            <span class="text-slate-500 dark:text-slate-400">
+              — MIT License
+            </span>
+          </li>
+          <li>
+            <a
+              href="https://github.com/natemoo-re/astro-icon"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
+              >astro-icon 1.1.5</a
+            >{" "}
+            <span class="text-slate-500 dark:text-slate-400">
+              — MIT License
+            </span>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h3
+          class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+        >
+          Build tooling
+        </h3>
+        <ul class="space-y-2">
+          <li>
+            <a
+              href="https://github.com/tailwindlabs/tailwindcss"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
+              >Tailwind CSS 4.3.3</a
+            >{" "}
+            <span class="text-slate-500 dark:text-slate-400">
+              — MIT License
+            </span>
+          </li>
+          <li>
+            <a
+              href="https://github.com/tailwindlabs/tailwindcss"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
+              >@tailwindcss/vite 4.3.3</a
+            >{" "}
+            <span class="text-slate-500 dark:text-slate-400">
+              — MIT License
+            </span>
+          </li>
+          <li>
+            <a
+              href="https://github.com/microsoft/TypeScript"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
+              >TypeScript 6.0.3</a
+            >{" "}
+            <span class="text-slate-500 dark:text-slate-400">
+              — Apache License 2.0
+            </span>
+          </li>
+          <li>
+            <a
+              href="https://github.com/withastro/astro"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
+              >@astrojs/check 0.9.10</a
+            >{" "}
+            <span class="text-slate-500 dark:text-slate-400">
+              — MIT License
+            </span>
+          </li>
+          <li>
+            <a
+              href="https://github.com/DefinitelyTyped/DefinitelyTyped"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
+              >@types/node 26.4.0</a
+            >{" "}
+            <span class="text-slate-500 dark:text-slate-400">
+              — MIT License
+            </span>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h3
+          class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+        >
+          Fonts
+        </h3>
+        <ul class="space-y-2">
+          <li>
+            <a
+              href="https://github.com/rsms/inter"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
+              >Inter</a
+            >{" "}
+            <span class="text-slate-500 dark:text-slate-400">
+              by Rasmus Andersson — SIL Open Font License 1.1, loaded via Google
+              Fonts
+            </span>
+          </li>
+          <li>
+            <a
+              href="https://github.com/tonsky/FiraCode"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
+              >Fira Code</a
+            >{" "}
+            <span class="text-slate-500 dark:text-slate-400">
+              by Nikita Prokopov — SIL Open Font License 1.1, loaded via Google
+              Fonts
+            </span>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h3
+          class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+        >
+          Icons
+        </h3>
+        <ul class="space-y-2">
+          <li>
+            <a
+              href="https://github.com/lucide-icons/lucide"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
+              >Lucide</a
+            >{" "}
+            <span class="text-slate-500 dark:text-slate-400">
+              (via @iconify-json/lucide 1.2.130) — ISC License; includes
+              portions derived from Feather Icons (MIT License, copyright Cole
+              Bemis)
+            </span>
+          </li>
+          <li>
+            <a
+              href="https://github.com/simple-icons/simple-icons"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
+              >Simple Icons</a
+            >{" "}
+            <span class="text-slate-500 dark:text-slate-400">
+              (via @iconify-json/simple-icons 1.2.95) — CC0 1.0 Universal; brand
+              trademarks belong to their respective owners
+            </span>
+          </li>
+          <li>
+            <a
+              href="https://github.com/kurone-kito/launchpad-icons"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
+              >VRC Icons (Launchpad Icons)</a
+            >{" "}
+            <span class="text-slate-500 dark:text-slate-400">
+              by Kurone Kito — MIT License (dual-licensed MIT / CC BY 4.0, MIT
+              applied by default); used for the VRChat icon
+            </span>
+          </li>
+          <li>
+            <a
+              href="https://charat.me/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
+              >CHARAT avatar artwork</a
+            >{" "}
+            <span class="text-slate-500 dark:text-slate-400">
+              by LIBRE (Ameniwa) — created with CHARAT and used per the CHARAT
+              usage guidelines; no credit required for profile-icon use, listed
+              here as a courtesy
+            </span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const modal = document.getElementById("licenses-modal");
+  const openButton = document.getElementById("licenses-open");
+  const closeButton = document.getElementById("licenses-close");
+
+  const isDialog = (el: Element | null): el is HTMLDialogElement =>
+    el instanceof HTMLDialogElement;
+
+  openButton?.addEventListener("click", () => {
+    if (isDialog(modal)) modal.showModal();
+  });
+
+  closeButton?.addEventListener("click", () => {
+    if (isDialog(modal)) modal.close();
+  });
+
+  modal?.addEventListener("click", (event) => {
+    if (isDialog(modal) && event.target === modal) modal.close();
+  });
+</script>
