@@ -1,5 +1,5 @@
 ---
-
+import { Icon } from "astro-icon/components";
 ---
 
 <header
@@ -33,23 +33,10 @@
 			<button
 				id="theme-toggle"
 				class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+				aria-label="Toggle theme"
 			>
-				<svg
-					id="theme-icon"
-					xmlns="http://www.w3.org/2000/svg"
-					class="h-5 w-5"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-				>
-					<path
-						id="theme-icon-path"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M12 3v1m0 16v1m8.66-10H21m-3.34 0h-1.34M5.34 12H4m17 0a9 9 0 11-18 0 9 9 0 0118 0z"
-					></path>
-				</svg>
+				<Icon name="lucide:sun" id="theme-icon-sun" class="h-5 w-5" />
+				<Icon name="lucide:moon" id="theme-icon-moon" class="h-5 w-5 hidden" />
 			</button>
 		</nav>
 	</div>
@@ -57,24 +44,16 @@
 
 <script>
 	const themeToggle = document.getElementById("theme-toggle");
-	const themeIcon = document.getElementById("theme-icon-path");
+	const themeIconSun = document.getElementById("theme-icon-sun");
+	const themeIconMoon = document.getElementById("theme-icon-moon");
 	const isDark = () => document.documentElement.classList.contains("dark");
 
 	const updateIcon = () => {
-		if (isDark()) {
-			themeIcon.setAttribute(
-				"d",
-				"M12 3v1m0 16v1m8.66-10H21m-3.34 0h-1.34M5.34 12H4m17 0a9 9 0 11-18 0 9 9 0 0118 0z",
-			);
-		} else {
-			themeIcon.setAttribute(
-				"d",
-				"M12 3v1m0 16v1m8.66-10H21m-3.34 0h-1.34M5.34 12H4m17 0a9 9 0 11-18 0 9 9 0 0118 0z",
-			);
-		}
+		themeIconSun?.classList.toggle("hidden", isDark());
+		themeIconMoon?.classList.toggle("hidden", !isDark());
 	};
 
-	themeToggle.addEventListener("click", () => {
+	themeToggle?.addEventListener("click", () => {
 		document.documentElement.classList.toggle("dark");
 		updateIcon();
 	});
