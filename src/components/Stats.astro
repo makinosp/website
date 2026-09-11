@@ -1,5 +1,7 @@
 ---
+import { fetchGitHubStats } from "../lib/github.ts";
 
+const stats = await fetchGitHubStats();
 ---
 
 <section id="stats" class="py-20">
@@ -13,11 +15,13 @@
 				class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700"
 			>
 				<h3 class="text-lg font-semibold mb-3 text-slate-900 dark:text-white">
-					Contributions
+					Recent pushes
 				</h3>
-				<p class="text-3xl font-bold text-blue-600 dark:text-blue-400">5,351</p>
+				<p class="text-3xl font-bold text-blue-600 dark:text-blue-400">
+					{stats.recentPushes}
+				</p>
 				<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-					contributions in the last year
+					pushes in the last {stats.eventsTotal} public events
 				</p>
 			</div>
 			<div
@@ -27,23 +31,18 @@
 					Activity
 				</h3>
 				<div class="space-y-2 text-sm">
-					<div class="flex justify-between">
-						<span class="text-slate-600 dark:text-slate-300">Commits</span>
-						<span class="text-slate-900 dark:text-white font-medium">75%</span>
-					</div>
-					<div class="flex justify-between">
-						<span class="text-slate-600 dark:text-slate-300">Pull requests</span
-						>
-						<span class="text-slate-900 dark:text-white font-medium">14%</span>
-					</div>
-					<div class="flex justify-between">
-						<span class="text-slate-600 dark:text-slate-300">Code review</span>
-						<span class="text-slate-900 dark:text-white font-medium">9%</span>
-					</div>
-					<div class="flex justify-between">
-						<span class="text-slate-600 dark:text-slate-300">Issues</span>
-						<span class="text-slate-900 dark:text-white font-medium">2%</span>
-					</div>
+					{
+						stats.activity.map((slice) => (
+							<div class="flex justify-between">
+								<span class="text-slate-600 dark:text-slate-300">
+									{slice.label}
+								</span>
+								<span class="text-slate-900 dark:text-white font-medium">
+									{slice.percent}%
+								</span>
+							</div>
+						))
+					}
 				</div>
 			</div>
 		</div>
@@ -55,48 +54,23 @@
 				Top Repositories
 			</h3>
 			<div class="space-y-3">
-				<div class="flex items-center justify-between">
-					<a
-						href="https://github.com/makinosp/xiangke"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="text-blue-600 dark:text-blue-400 hover:underline">xiangke</a
-					>
-					<span class="text-sm text-slate-500 dark:text-slate-400">Rust</span>
-				</div>
-				<div class="flex items-center justify-between">
-					<a
-						href="https://github.com/makinosp/pr-agent-runner"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="text-blue-600 dark:text-blue-400 hover:underline"
-						>pr-agent-runner</a
-					>
-					<span class="text-sm text-slate-500 dark:text-slate-400"
-						>TypeScript</span
-					>
-				</div>
-				<div class="flex items-center justify-between">
-					<a
-						href="https://github.com/makinosp/utopia"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="text-blue-600 dark:text-blue-400 hover:underline">utopia</a
-					>
-					<span class="text-sm text-slate-500 dark:text-slate-400">Rust</span>
-				</div>
-				<div class="flex items-center justify-between">
-					<a
-						href="https://github.com/makinosp/luminescence"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="text-blue-600 dark:text-blue-400 hover:underline"
-						>luminescence</a
-					>
-					<span class="text-sm text-slate-500 dark:text-slate-400"
-						>TypeScript</span
-					>
-				</div>
+				{
+					stats.topRepos.map((repo) => (
+						<div class="flex items-center justify-between">
+							<a
+								href={repo.htmlUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="text-blue-600 dark:text-blue-400 hover:underline"
+							>
+								{repo.name}
+							</a>
+							<span class="text-sm text-slate-500 dark:text-slate-400">
+								{repo.language}
+							</span>
+						</div>
+					))
+				}
 			</div>
 		</div>
 	</div>
