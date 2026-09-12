@@ -3,6 +3,14 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer components {
+  .about-text {
+    @apply text-lg text-slate-600 dark:text-slate-300 leading-relaxed;
+  }
+
+  .about-emphasis {
+    @apply text-slate-900 dark:text-white;
+  }
+
   .avatar-frame {
     line-height: 0;
   }
