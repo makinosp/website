@@ -1,0 +1,76 @@
+---
+import type { Dictionary } from "../i18n/dictionary.ts";
+
+interface Props {
+  qqModal?: Dictionary["qqModal"];
+}
+
+const { qqModal } = Astro.props;
+
+const closeLabel = qqModal?.closeLabel ?? "Close QQ QR code dialog";
+const qrAlt = qqModal?.qrAlt ?? "QQ QR code";
+---
+
+<dialog
+  id="qq-modal"
+  aria-labelledby="qq-modal-title"
+  class="m-auto w-[calc(100%-2rem)] max-w-sm rounded-2xl border border-slate-200 bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+>
+  <div class="max-h-[80vh] overflow-y-auto p-6 sm:p-8">
+    <div class="mb-6 flex items-start justify-between gap-4">
+      <div>
+        <h2 id="qq-modal-title" class="sr-only">
+          {qrAlt}
+        </h2>
+      </div>
+      <button
+        id="qq-close"
+        type="button"
+        aria-label={closeLabel}
+        class="rounded-lg bg-slate-100 p-2 text-slate-600 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-5 w-5"
+          aria-hidden="true"
+        >
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex justify-center">
+      <img src="/qq.jpeg" alt={qrAlt} class="max-w-full h-auto rounded-lg" />
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const modal = document.getElementById("qq-modal");
+  const openButtons = document.querySelectorAll("[data-qq-open]");
+  const closeButton = document.getElementById("qq-close");
+
+  const isDialog = (element: Element | null): element is HTMLDialogElement =>
+    element instanceof HTMLDialogElement;
+
+  openButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (isDialog(modal)) modal.showModal();
+    });
+  });
+
+  closeButton?.addEventListener("click", () => {
+    if (isDialog(modal)) modal.close();
+  });
+
+  modal?.addEventListener("click", (event) => {
+    if (isDialog(modal) && event.target === modal) modal.close();
+  });
+</script>

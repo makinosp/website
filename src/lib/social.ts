@@ -1,8 +1,9 @@
 export interface SocialLink {
   label: string;
-  href: string;
+  href?: string;
   icon?: string;
   imgSrc?: string;
+  modal?: "qq";
 }
 
 export const SOCIAL_LINKS: SocialLink[] = [
@@ -18,6 +19,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
     href: "https://www.instagram.com/makinosp/",
     icon: "simple-icons:instagram",
   },
+  { label: "QQ", icon: "simple-icons:tencentqq", modal: "qq" },
   {
     label: "Spotify",
     href: "https://open.spotify.com/user/sheeptech",

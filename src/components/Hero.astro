@@ -10,14 +10,16 @@ import type { Dictionary } from "../i18n/dictionary.ts";
 interface Props {
 	locale?: Locale;
 	hero?: Dictionary["hero"];
+	qqModal?: Dictionary["qqModal"];
 }
 
-const { locale = "en", hero } = Astro.props;
+const { locale = "en", hero, qqModal } = Astro.props;
 const displayName = DISPLAY_NAMES[locale];
 const subtitle =
 	hero?.subtitle ??
 	"Software Engineer based in Tokyo, focusing on web and mobile application development.";
 const avatarAlt = hero?.avatarAlt ?? displayName;
+const qqOpenLabel = qqModal?.openLabel ?? "Show QQ QR code";
 ---
 
 <section class="min-h-screen flex items-center justify-center pt-16">
@@ -44,16 +46,39 @@ const avatarAlt = hero?.avatarAlt ?? displayName;
 		</p>
 		<div class="flex flex-wrap justify-center gap-4 mb-8">
 			{
-				SOCIAL_LINKS.map((link) => (
-					<ExternalLink href={link.href} ariaLabel={link.label} variant="pill">
-						<SocialIcon
-							icon={link.icon}
-							imgSrc={link.imgSrc}
-							label={link.label}
-						/>
-						{link.label}
-					</ExternalLink>
-				))
+				SOCIAL_LINKS.map((link) => {
+					if (link.modal === "qq") {
+						return (
+							<button
+								type="button"
+								data-qq-open
+								aria-label={qqOpenLabel}
+								class="flex items-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+							>
+								<SocialIcon
+									icon={link.icon}
+									imgSrc={link.imgSrc}
+									label={link.label}
+								/>
+								{link.label}
+							</button>
+						);
+					}
+					return (
+						<ExternalLink
+							href={link.href!}
+							ariaLabel={link.label}
+							variant="pill"
+						>
+							<SocialIcon
+								icon={link.icon}
+								imgSrc={link.imgSrc}
+								label={link.label}
+							/>
+							{link.label}
+						</ExternalLink>
+					);
+				})
 			}
 		</div>
 	</Container>

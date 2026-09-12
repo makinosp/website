@@ -65,4 +65,9 @@ export interface Dictionary {
       icons: string;
     };
   };
+  qqModal: {
+    openLabel: string;
+    closeLabel: string;
+    qrAlt: string;
+  };
 }
