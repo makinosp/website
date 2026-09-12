@@ -2,12 +2,31 @@
 import { Icon } from "astro-icon/components";
 import Container from "./Container.astro";
 import { SITE_NAME } from "../lib/site.ts";
+import {
+	DEFAULT_LOCALE,
+	LOCALES,
+	LOCALE_STORAGE_KEY,
+	type Locale,
+} from "../i18n/locales.ts";
+import type { Dictionary } from "../i18n/dictionary.ts";
+
+interface Props {
+	locale?: Locale;
+	nav?: Dictionary["nav"];
+	languageLabel?: string;
+}
+
+const {
+	locale = DEFAULT_LOCALE,
+	nav,
+	languageLabel = "Language",
+} = Astro.props;
 
 const NAV_LINKS = [
-	{ href: "#about", label: "About" },
-	{ href: "#tech", label: "Tech Stack" },
-	{ href: "#projects", label: "Projects" },
-	{ href: "#stats", label: "Stats" },
+	{ href: "#about", label: nav?.about ?? "About" },
+	{ href: "#tech", label: nav?.tech ?? "Tech Stack" },
+	{ href: "#projects", label: nav?.projects ?? "Projects" },
+	{ href: "#stats", label: nav?.stats ?? "Stats" },
 ];
 
 const navLinkClass =
@@ -29,22 +48,64 @@ const navLinkClass =
 					</a>
 				))
 			}
-			<button
-				id="theme-toggle"
-				class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-				aria-label="Toggle theme"
-			>
-				<Icon name="lucide:sun" id="theme-icon-sun" class="h-5 w-5" />
-				<Icon name="lucide:moon" id="theme-icon-moon" class="h-5 w-5 hidden" />
-			</button>
+			<div class="flex items-center gap-2">
+				<button
+					id="theme-toggle"
+					class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+					aria-label="Toggle theme"
+				>
+					<Icon name="lucide:sun" id="theme-icon-sun" class="h-5 w-5" />
+					<Icon
+						name="lucide:moon"
+						id="theme-icon-moon"
+						class="h-5 w-5 hidden"
+					/>
+				</button>
+				<div class="relative">
+					<button
+						id="locale-toggle"
+						class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-sm font-semibold min-w-10"
+						aria-label={languageLabel}
+						aria-haspopup="true"
+						aria-expanded="false"
+					>
+						{LOCALES.find((entry) => entry.code === locale)?.shortLabel ?? "EN"}
+					</button>
+					<div
+						id="locale-menu"
+						class="hidden absolute right-0 mt-2 w-36 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg py-1"
+						role="menu"
+					>
+						{
+							LOCALES.map((entry) => (
+								<a
+									href={entry.path}
+									role="menuitem"
+									data-locale={entry.code}
+									aria-current={entry.code === locale ? "true" : undefined}
+									class={`block px-4 py-2 text-sm transition-colors hover:bg-slate-100 dark:hover:bg-slate-700 ${
+										entry.code === locale
+											? "text-slate-900 dark:text-white font-semibold"
+											: "text-slate-600 dark:text-slate-300"
+									}`}
+								>
+									{entry.fullName}
+								</a>
+							))
+						}
+					</div>
+				</div>
+			</div>
 		</nav>
 	</Container>
 </header>
 
-<script>
+<script is:inline define:vars={{ storageKey: LOCALE_STORAGE_KEY }}>
 	const themeToggle = document.getElementById("theme-toggle");
 	const themeIconSun = document.getElementById("theme-icon-sun");
 	const themeIconMoon = document.getElementById("theme-icon-moon");
+	const localeToggle = document.getElementById("locale-toggle");
+	const localeMenu = document.getElementById("locale-menu");
 	const isDark = () => document.documentElement.classList.contains("dark");
 
 	const updateIcon = () => {
@@ -55,6 +116,38 @@ const navLinkClass =
 	themeToggle?.addEventListener("click", () => {
 		document.documentElement.classList.toggle("dark");
 		updateIcon();
+	});
+
+	localeToggle?.addEventListener("click", () => {
+		const expanded = localeToggle.getAttribute("aria-expanded") === "true";
+		localeToggle.setAttribute("aria-expanded", String(!expanded));
+		localeMenu?.classList.toggle("hidden", expanded);
+	});
+
+	document.addEventListener("click", (event) => {
+		if (
+			localeMenu &&
+			!localeMenu.classList.contains("hidden") &&
+			event.target instanceof Node &&
+			!localeToggle?.contains(event.target) &&
+			!localeMenu.contains(event.target)
+		) {
+			localeMenu.classList.add("hidden");
+			localeToggle?.setAttribute("aria-expanded", "false");
+		}
+	});
+
+	localeMenu?.querySelectorAll("a[data-locale]").forEach((link) => {
+		link.addEventListener("click", () => {
+			try {
+				const nextLocale = link.getAttribute("data-locale");
+				if (nextLocale) {
+					localStorage.setItem(storageKey, nextLocale);
+				}
+			} catch {
+				// Ignore storage errors (private mode, quota exceeded)
+			}
+		});
 	});
 
 	updateIcon();

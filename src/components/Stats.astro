@@ -3,8 +3,31 @@ import Section from "./Section.astro";
 import Card from "./Card.astro";
 import ExternalLink from "./ExternalLink.astro";
 import { fetchTopRepos } from "../lib/github.ts";
+import type { Dictionary } from "../i18n/dictionary.ts";
+
+interface Props {
+	stats?: Dictionary["stats"];
+}
+
+const { stats } = Astro.props;
 
 const topRepos = await fetchTopRepos();
+
+const title = stats?.title ?? "GitHub Stats";
+const recentPushesHeading = stats?.recentPushes ?? "Recent pushes";
+const pushesSuffix = stats?.pushesSuffix ?? "pushes in the last 7 days";
+const activityHeading = stats?.activity ?? "Activity";
+const topReposHeading = stats?.topRepos ?? "Top Repositories";
+const loadingPushes = stats?.loadingPushes ?? "Loading recent pushes…";
+const loadingActivity = stats?.loadingActivity ?? "Loading activity…";
+const loadError =
+	stats?.loadError ?? "Could not load GitHub activity. Please try again later.";
+const activityLabels = stats?.labels ?? {
+	commits: "Commits",
+	pullRequests: "Pull requests",
+	codeReview: "Code review",
+	issues: "Issues",
+};
 
 const statHeadingClass =
 	"text-lg font-semibold mb-3 text-slate-900 dark:text-white";
@@ -12,20 +35,20 @@ const skeletonBar =
 	"inline-block h-4 w-24 animate-pulse rounded bg-slate-200 dark:bg-slate-700";
 ---
 
-<Section id="stats" title="GitHub Stats">
+<Section id="stats" title={title}>
 	<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
 		<Card>
-			<h3 class={statHeadingClass}>Recent pushes</h3>
+			<h3 class={statHeadingClass}>{recentPushesHeading}</h3>
 			<p
 				id="github-push-count"
 				class="text-3xl font-bold text-blue-600 dark:text-blue-400"
 				aria-live="polite"
 			>
 				<span class={skeletonBar} aria-hidden="true"></span>
-				<span class="sr-only">Loading recent pushes…</span>
+				<span class="sr-only">{loadingPushes}</span>
 			</p>
 			<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-				pushes in the last 7 days
+				{pushesSuffix}
 			</p>
 			<p
 				id="github-stats-error"
@@ -35,8 +58,17 @@ const skeletonBar =
 			</p>
 		</Card>
 		<Card>
-			<h3 class={statHeadingClass}>Activity</h3>
-			<div id="github-activity" class="space-y-2 text-sm" aria-live="polite">
+			<h3 class={statHeadingClass}>{activityHeading}</h3>
+			<div
+				id="github-activity"
+				class="space-y-2 text-sm"
+				aria-live="polite"
+				data-label-commits={activityLabels.commits}
+				data-label-pull-requests={activityLabels.pullRequests}
+				data-label-code-review={activityLabels.codeReview}
+				data-label-issues={activityLabels.issues}
+				data-load-error={loadError}
+			>
 				<div class="flex justify-between">
 					<span class={skeletonBar} aria-hidden="true"></span>
 					<span class={skeletonBar} aria-hidden="true"></span>
@@ -53,13 +85,13 @@ const skeletonBar =
 					<span class={skeletonBar} aria-hidden="true"></span>
 					<span class={skeletonBar} aria-hidden="true"></span>
 				</div>
-				<span class="sr-only">Loading activity…</span>
+				<span class="sr-only">{loadingActivity}</span>
 			</div>
 		</Card>
 	</div>
 
 	<Card>
-		<h3 class={statHeadingClass}>Top Repositories</h3>
+		<h3 class={statHeadingClass}>{topReposHeading}</h3>
 		<div class="space-y-3">
 			{
 				topRepos.map((repo) => (
@@ -98,14 +130,20 @@ const skeletonBar =
 			pushEl.textContent = String(stats.recentPushes);
 		}
 		if (activityEl) {
+			const labels = [
+				activityEl.dataset.labelCommits ?? "Commits",
+				activityEl.dataset.labelPullRequests ?? "Pull requests",
+				activityEl.dataset.labelCodeReview ?? "Code review",
+				activityEl.dataset.labelIssues ?? "Issues",
+			];
 			activityEl.innerHTML = "";
-			for (const slice of stats.activity) {
+			stats.activity.forEach((slice, index) => {
 				const row = document.createElement("div");
 				row.className = "flex justify-between";
 
 				const label = document.createElement("span");
 				label.className = "text-slate-600 dark:text-slate-300";
-				label.textContent = slice.label;
+				label.textContent = labels[index] ?? slice.label;
 
 				const value = document.createElement("span");
 				value.className = "text-slate-900 dark:text-white font-medium";
@@ -113,7 +151,7 @@ const skeletonBar =
 
 				row.append(label, value);
 				activityEl.append(row);
-			}
+			});
 		}
 	}
 
@@ -126,6 +164,7 @@ const skeletonBar =
 		}
 		if (errorEl) {
 			errorEl.textContent =
+				activityEl?.dataset.loadError ??
 				"Could not load GitHub activity. Please try again later.";
 			errorEl.hidden = false;
 		}

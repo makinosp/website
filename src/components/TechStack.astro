@@ -1,6 +1,13 @@
 ---
 import Section from "./Section.astro";
 import Badge from "./Badge.astro";
+import type { Dictionary } from "../i18n/dictionary.ts";
+
+interface Props {
+	tech?: Dictionary["tech"];
+}
+
+const { tech } = Astro.props;
 
 interface TechItem {
 	label: string;
@@ -21,16 +28,17 @@ interface TechCategory {
 	items: TechItem[];
 }
 
+const title = tech?.title ?? "Tech Stack";
 const CATEGORIES: TechCategory[] = [
 	{
-		title: "Languages",
+		title: tech?.categories.languages ?? "Languages",
 		items: [
 			{ label: "TypeScript", color: "blue" },
 			{ label: "Rust", color: "orange" },
 		],
 	},
 	{
-		title: "Frameworks & Tools",
+		title: tech?.categories.frameworksTools ?? "Frameworks & Tools",
 		items: [
 			{ label: "Node.js", color: "green" },
 			{ label: "Fastify", color: "purple" },
@@ -39,7 +47,7 @@ const CATEGORIES: TechCategory[] = [
 		],
 	},
 	{
-		title: "Other",
+		title: tech?.categories.other ?? "Other",
 		items: [
 			{ label: "Docker", color: "red" },
 			{ label: "PostgreSQL", color: "indigo" },
@@ -52,7 +60,7 @@ const subheadingClass =
 	"text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200";
 ---
 
-<Section id="tech" title="Tech Stack">
+<Section id="tech" title={title}>
 	{
 		CATEGORIES.map((category, index) => (
 			<div class={index < CATEGORIES.length - 1 ? "mb-10" : ""}>

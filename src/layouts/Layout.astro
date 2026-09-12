@@ -1,27 +1,63 @@
 ---
 import "../styles/global.css";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../lib/site.ts";
+import {
+	DEFAULT_LOCALE,
+	LOCALE_STORAGE_KEY,
+	getLocaleInfo,
+	type Locale,
+} from "../i18n/locales.ts";
 
 interface Props {
 	title?: string;
 	description?: string;
 	canonical?: string;
+	locale?: Locale;
 }
 
 const {
 	title = SITE_TITLE,
 	description = SITE_DESCRIPTION,
 	canonical,
+	locale = DEFAULT_LOCALE,
 } = Astro.props;
+const localeInfo = getLocaleInfo(locale);
 const siteUrl = Astro.site?.toString().replace(/\/$/, "");
-const canonicalUrl = canonical ?? (siteUrl ? `${siteUrl}/` : undefined);
+const localePath =
+	localeInfo.path === "/" ? "" : localeInfo.path.replace(/\/$/, "");
+const canonicalUrl =
+	canonical ?? (siteUrl ? `${siteUrl}${localePath}/` : undefined);
+const fontHref =
+	locale === "ja"
+		? "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500;600;700;800;900&display=swap"
+		: locale === "zh-cn"
+			? "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&display=swap"
+			: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={localeInfo.htmlLang}>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script
+			is:inline
+			define:vars={{
+				storageKey: LOCALE_STORAGE_KEY,
+				currentPath: localeInfo.path,
+			}}
+		>
+			try {
+				const saved = localStorage.getItem(storageKey);
+				const targets = { en: "/", ja: "/ja/", "zh-cn": "/zh-cn/" };
+				const target = saved ? targets[saved] : null;
+				if (target && target !== currentPath) {
+					window.location.replace(target);
+				}
+			} catch {
+				// Ignore storage errors (private mode, quota exceeded)
+			}
+		</script>
 		<meta name="description" content={description} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
@@ -31,15 +67,13 @@ const canonicalUrl = canonical ?? (siteUrl ? `${siteUrl}/` : undefined);
 		<meta property="og:description" content={description} />
 		{canonicalUrl ? <meta property="og:url" content={canonicalUrl} /> : null}
 		<meta property="og:type" content="website" />
+		<meta property="og:locale" content={localeInfo.ogLocale} />
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap"
-			rel="stylesheet"
-		/>
+		<link href={fontHref} rel="stylesheet" />
 	</head>
 	<body
 		class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-300"
