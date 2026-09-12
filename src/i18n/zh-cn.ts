@@ -58,7 +58,9 @@ export const zhCn: Dictionary = {
     topRepos: "热门仓库",
     loadingPushes: "正在加载近期推送…",
     loadingActivity: "正在加载动态…",
+    loadingTopRepos: "正在加载热门仓库…",
     loadError: "无法加载 GitHub 动态，请稍后再试。",
+    topReposLoadError: "无法加载热门仓库，请稍后再试。",
     labels: {
       commits: "提交",
       pullRequests: "拉取请求",

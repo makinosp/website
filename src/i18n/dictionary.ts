@@ -42,7 +42,9 @@ export interface Dictionary {
     topRepos: string;
     loadingPushes: string;
     loadingActivity: string;
+    loadingTopRepos: string;
     loadError: string;
+    topReposLoadError: string;
     labels: {
       commits: string;
       pullRequests: string;

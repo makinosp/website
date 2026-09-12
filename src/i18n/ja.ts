@@ -59,8 +59,11 @@ export const ja: Dictionary = {
     topRepos: "主要リポジトリ",
     loadingPushes: "最近のプッシュを読み込み中…",
     loadingActivity: "アクティビティを読み込み中…",
+    loadingTopRepos: "主要リポジトリを読み込み中…",
     loadError:
       "GitHubアクティビティを読み込めませんでした。しばらくしてから再度お試しください。",
+    topReposLoadError:
+      "主要リポジトリを読み込めませんでした。しばらくしてから再度お試しください。",
     labels: {
       commits: "コミット",
       pullRequests: "プルリクエスト",

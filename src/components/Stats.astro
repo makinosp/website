@@ -1,8 +1,6 @@
 ---
 import Section from "./Section.astro";
 import Card from "./Card.astro";
-import ExternalLink from "./ExternalLink.astro";
-import { fetchTopRepos } from "../lib/github.ts";
 import type { Dictionary } from "../i18n/dictionary.ts";
 
 interface Props {
@@ -10,8 +8,6 @@ interface Props {
 }
 
 const { stats } = Astro.props;
-
-const topRepos = await fetchTopRepos();
 
 const title = stats?.title ?? "GitHub Stats";
 const recentPushesHeading = stats?.recentPushes ?? "Recent pushes";
@@ -22,6 +18,8 @@ const loadingPushes = stats?.loadingPushes ?? "Loading recent pushes…";
 const loadingActivity = stats?.loadingActivity ?? "Loading activity…";
 const loadError =
 	stats?.loadError ?? "Could not load GitHub activity. Please try again later.";
+const topReposLoadError =
+	stats?.topReposLoadError ?? "Could not load top repositories. Please try again later.";
 const activityLabels = stats?.labels ?? {
 	commits: "Commits",
 	pullRequests: "Pull requests",
@@ -92,24 +90,17 @@ const skeletonBar =
 
 	<Card>
 		<h3 class={statHeadingClass}>{topReposHeading}</h3>
-		<div class="space-y-3">
-			{
-				topRepos.map((repo) => (
-					<div class="flex items-center justify-between">
-						<ExternalLink
-							href={repo.htmlUrl}
-							variant="none"
-							class="text-blue-600 dark:text-blue-400 hover:underline"
-						>
-							{repo.name}
-						</ExternalLink>
-						<span class="text-sm text-slate-500 dark:text-slate-400">
-							{repo.language}
-						</span>
-					</div>
-				))
-			}
+		<div id="github-top-repos" class="space-y-3" aria-live="polite">
+			<div class="flex justify-between">
+				<span class={skeletonBar} aria-hidden="true"></span>
+				<span class={skeletonBar} aria-hidden="true"></span>
+			</div>
 		</div>
+		<p
+			id="github-top-repos-error"
+			class="text-sm text-red-600 dark:text-red-400 mt-2"
+			hidden
+		></p>
 	</Card>
 </Section>
 
@@ -117,7 +108,10 @@ const skeletonBar =
 	import {
 		fetchActivityStats,
 		loadCachedActivity,
+		fetchTopReposWithCache,
+		loadCachedTopRepos,
 		type ActivityStats,
+		type TopRepo,
 	} from "../lib/github-client.ts";
 	import { USERNAME } from "../lib/site.ts";
 
@@ -185,4 +179,56 @@ const skeletonBar =
 	}
 
 	void loadActivity();
+
+	const topReposEl = document.getElementById("github-top-repos");
+	const topReposErrorEl = document.getElementById("github-top-repos-error");
+
+	function renderTopRepos(repos: TopRepo[]) {
+		if (!topReposEl) return;
+		topReposEl.innerHTML = "";
+		repos.forEach((repo) => {
+			const row = document.createElement("div");
+			row.className = "flex items-center justify-between";
+
+			const link = document.createElement("a");
+			link.href = repo.htmlUrl;
+			link.target = "_blank";
+			link.rel = "noopener noreferrer";
+			link.className =
+				"text-blue-600 dark:text-blue-400 hover:underline";
+			link.textContent = repo.name;
+
+			const lang = document.createElement("span");
+			lang.className = "text-sm text-slate-500 dark:text-slate-400";
+			lang.textContent = repo.language;
+
+			row.append(link, lang);
+			topReposEl.append(row);
+		});
+	}
+
+	function renderTopReposError() {
+		if (topReposEl) topReposEl.innerHTML = "";
+		if (topReposErrorEl) {
+			topReposErrorEl.textContent =
+				"Could not load top repositories. Please try again later.";
+			topReposErrorEl.hidden = false;
+		}
+	}
+
+	async function loadTopRepos() {
+		const cached = loadCachedTopRepos();
+		if (cached) {
+			renderTopRepos(cached);
+			return;
+		}
+		try {
+			const repos = await fetchTopReposWithCache();
+			renderTopRepos(repos);
+		} catch {
+			renderTopReposError();
+		}
+	}
+
+	void loadTopRepos();
 </script>
