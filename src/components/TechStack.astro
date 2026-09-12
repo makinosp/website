@@ -1,6 +1,5 @@
 ---
 import Section from "./Section.astro";
-import Badge from "./Badge.astro";
 import type { Dictionary } from "../i18n/dictionary.ts";
 
 interface Props {
@@ -9,50 +8,119 @@ interface Props {
 
 const { tech } = Astro.props;
 
-interface TechItem {
-	label: string;
-	color:
-		| "blue"
-		| "orange"
-		| "green"
-		| "purple"
-		| "cyan"
-		| "yellow"
-		| "red"
-		| "indigo"
-		| "pink";
-}
-
-interface TechCategory {
-	title: string;
-	items: TechItem[];
-}
-
 const title = tech?.title ?? "Tech Stack";
-const CATEGORIES: TechCategory[] = [
+
+const LANGUAGES = [
 	{
-		title: tech?.categories.languages ?? "Languages",
-		items: [
-			{ label: "TypeScript", color: "blue" },
-			{ label: "Rust", color: "orange" },
-		],
+		label: "Bash",
+		src: "https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white",
 	},
 	{
-		title: tech?.categories.frameworksTools ?? "Frameworks & Tools",
-		items: [
-			{ label: "Node.js", color: "green" },
-			{ label: "Fastify", color: "purple" },
-			{ label: "Astro", color: "cyan" },
-			{ label: "Tailwind CSS", color: "yellow" },
-		],
+		label: "GDScript",
+		src: "https://img.shields.io/badge/GDScript-478CBF?style=for-the-badge&logo=godotengine&logoColor=white",
 	},
 	{
-		title: tech?.categories.other ?? "Other",
-		items: [
-			{ label: "Docker", color: "red" },
-			{ label: "PostgreSQL", color: "indigo" },
-			{ label: "Git", color: "pink" },
-		],
+		label: "Python",
+		src: "https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white",
+	},
+	{
+		label: "Rust",
+		src: "https://img.shields.io/badge/Rust-DE5C46?style=for-the-badge&logo=rust&logoColor=white",
+	},
+	{
+		label: "Swift",
+		src: "https://img.shields.io/badge/Swift-F05138?style=for-the-badge&logo=swift&logoColor=white",
+	},
+	{
+		label: "TypeScript",
+		src: "https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white",
+	},
+];
+
+const FRAMEWORKS_TOOLS = [
+	{
+		label: "Ajv",
+		src: "https://img.shields.io/badge/Ajv-20C1CC?style=for-the-badge&logo=ajv&logoColor=white",
+	},
+	{
+		label: "Astro",
+		src: "https://img.shields.io/badge/Astro-BC52EE?style=for-the-badge&logo=astro&logoColor=white",
+	},
+	{
+		label: "Axum",
+		src: "https://img.shields.io/badge/Axum-DE5C46?style=for-the-badge&logo=rust&logoColor=white",
+	},
+	{
+		label: "Docker",
+		src: "https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white",
+	},
+	{
+		label: "ESLint",
+		src: "https://img.shields.io/badge/ESLint-3B3B4F?style=for-the-badge&logo=eslint&logoColor=white",
+	},
+	{
+		label: "Fastify",
+		src: "https://img.shields.io/badge/Fastify-DADADA?style=for-the-badge&logo=fastify&logoColor=black",
+	},
+	{
+		label: "GitHub Actions",
+		src: "https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white",
+	},
+	{
+		label: "Godot",
+		src: "https://img.shields.io/badge/Godot-478CBF?style=for-the-badge&logo=godotengine&logoColor=white",
+	},
+	{
+		label: "Hono",
+		src: "https://img.shields.io/badge/Hono-DF5502?style=for-the-badge&logo=hono&logoColor=white",
+	},
+	{
+		label: "Jest",
+		src: "https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white",
+	},
+	{
+		label: "Just",
+		src: "https://img.shields.io/badge/Just-161820?style=for-the-badge&logo=just&logoColor=white",
+	},
+	{
+		label: "Node.js",
+		src: "https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white",
+	},
+	{
+		label: "Oxc",
+		src: "https://img.shields.io/badge/Oxc-00B8D4?style=for-the-badge&logo=oxc&logoColor=white",
+	},
+	{
+		label: "Postgres",
+		src: "https://img.shields.io/badge/postgres-4169E1?style=for-the-badge&logo=postgresql&logoColor=white",
+	},
+	{
+		label: "Prisma",
+		src: "https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white",
+	},
+	{
+		label: "Pulumi",
+		src: "https://img.shields.io/badge/Pulumi-4632C8?style=for-the-badge&logo=pulumi&logoColor=white",
+	},
+	{
+		label: "SwiftUI",
+		src: "https://img.shields.io/badge/SwiftUI-007AFF?style=for-the-badge&logo=swift&logoColor=white",
+	},
+	{
+		label: "Traefik",
+		src: "https://img.shields.io/badge/Traefik-EB6A52?style=for-the-badge&logo=traefikproxy&logoColor=white",
+	},
+	{
+		label: "Vitest",
+		src: "https://img.shields.io/badge/Vitest-20FC85?style=for-the-badge&logo=vitest&logoColor=white",
+	},
+	{
+		label: "Vue.js",
+		src: "https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white",
+	},
+	{
+		label: "Zod",
+		src: "https://img.shields.io/badge/Zod-316192?style=for-the-badge&logo=zod&logoColor=white",
 	},
 ];
 
@@ -61,16 +129,26 @@ const subheadingClass =
 ---
 
 <Section id="tech" title={title}>
-	{
-		CATEGORIES.map((category, index) => (
-			<div class={index < CATEGORIES.length - 1 ? "mb-10" : ""}>
-				<h3 class={subheadingClass}>{category.title}</h3>
-				<div class="flex flex-wrap gap-3">
-					{category.items.map((item) => (
-						<Badge color={item.color}>{item.label}</Badge>
-					))}
-				</div>
-			</div>
-		))
-	}
+	<div class="mb-10">
+		<h3 class={subheadingClass}>{tech?.categories.languages ?? "Languages"}</h3>
+		<div class="flex flex-wrap gap-3">
+			{
+				LANGUAGES.map((item) => (
+					<img src={item.src} alt={item.label} class="h-10" />
+				))
+			}
+		</div>
+	</div>
+	<div>
+		<h3 class={subheadingClass}>
+			{tech?.categories.frameworksTools ?? "Frameworks & Tools"}
+		</h3>
+		<div class="flex flex-wrap gap-3">
+			{
+				FRAMEWORKS_TOOLS.map((item) => (
+					<img src={item.src} alt={item.label} class="h-10" />
+				))
+			}
+		</div>
+	</div>
 </Section>
