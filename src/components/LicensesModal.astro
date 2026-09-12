@@ -1,6 +1,38 @@
 ---
 import ExternalLink from "./ExternalLink.astro";
 import { LICENSE_CATEGORIES } from "../lib/licenses.ts";
+import type { Dictionary } from "../i18n/dictionary.ts";
+
+interface Props {
+  licensesModal?: Dictionary["licensesModal"];
+}
+
+const { licensesModal } = Astro.props;
+
+const title = licensesModal?.title ?? "Third-party licenses";
+const description =
+  licensesModal?.description ??
+  "This site is built with open source software. Thanks to the maintainers and contributors of these projects.";
+const closeLabel =
+  licensesModal?.closeLabel ?? "Close third-party licenses dialog";
+const categoryTitles = licensesModal?.categories ?? {
+  runtime: "Runtime",
+  buildTooling: "Build tooling",
+  fonts: "Fonts",
+  icons: "Icons",
+};
+
+const CATEGORY_TITLE_KEYS = [
+  "runtime",
+  "buildTooling",
+  "fonts",
+  "icons",
+] as const;
+
+function getCategoryTitle(index: number, fallback: string): string {
+  const key = CATEGORY_TITLE_KEYS[index];
+  return key ? (categoryTitles[key] ?? fallback) : fallback;
+}
 
 const categoryHeadingClass =
   "mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400";
@@ -19,17 +51,16 @@ const licenseNoteClass = "text-slate-500 dark:text-slate-400";
           id="licenses-modal-title"
           class="text-xl font-bold text-slate-900 dark:text-white"
         >
-          Third-party licenses
+          {title}
         </h2>
         <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-          This site is built with open source software. Thanks to the
-          maintainers and contributors of these projects.
+          {description}
         </p>
       </div>
       <button
         id="licenses-close"
         type="button"
-        aria-label="Close third-party licenses dialog"
+        aria-label={closeLabel}
         class="rounded-lg bg-slate-100 p-2 text-slate-600 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
       >
         <svg
@@ -51,9 +82,11 @@ const licenseNoteClass = "text-slate-500 dark:text-slate-400";
 
     <div class="space-y-6 text-sm">
       {
-        LICENSE_CATEGORIES.map((category) => (
+        LICENSE_CATEGORIES.map((category, index) => (
           <section>
-            <h3 class={categoryHeadingClass}>{category.title}</h3>
+            <h3 class={categoryHeadingClass}>
+              {getCategoryTitle(index, category.title)}
+            </h3>
             <ul class="space-y-2">
               {category.items.map((item) => (
                 <li>

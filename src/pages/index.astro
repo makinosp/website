@@ -7,14 +7,26 @@ import TechStack from "../components/TechStack.astro";
 import Projects from "../components/Projects.astro";
 import Stats from "../components/Stats.astro";
 import Footer from "../components/Footer.astro";
+import { getDictionary } from "../i18n/index.ts";
+
+const locale = "en" as const;
+const dict = getDictionary(locale);
 ---
 
-<Layout>
-	<Header />
-	<Hero />
-	<About />
-	<TechStack />
-	<Projects />
-	<Stats />
-	<Footer />
+<Layout
+	locale={locale}
+	title={dict.meta.title}
+	description={dict.meta.description}
+>
+	<Header locale={locale} nav={dict.nav} languageLabel={dict.languageLabel} />
+	<Hero locale={locale} hero={dict.hero} />
+	<About locale={locale} about={dict.about} />
+	<TechStack tech={dict.tech} />
+	<Projects projects={dict.projects} />
+	<Stats stats={dict.stats} />
+	<Footer
+		locale={locale}
+		footer={dict.footer}
+		licensesModal={dict.licensesModal}
+	/>
 </Layout>

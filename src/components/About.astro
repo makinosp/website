@@ -1,26 +1,30 @@
 ---
 import Section from "./Section.astro";
-import { PROFILE_NAME } from "../lib/site.ts";
+import { DISPLAY_NAMES, type Locale } from "../i18n/locales.ts";
+import type { Dictionary } from "../i18n/dictionary.ts";
+import { formatTemplate } from "../i18n/index.ts";
+
+interface Props {
+	locale?: Locale;
+	about?: Dictionary["about"];
+}
+
+const { locale = "en", about } = Astro.props;
+const title = about?.title ?? "About Me";
+const greeting = formatTemplate(
+	about?.greetingTemplate ??
+		"Hi! I'm {name}, a Software Engineer based in Tokyo.",
+	{ name: DISPLAY_NAMES[locale] },
+);
+const paragraphs = about?.paragraphs ?? [];
 ---
 
-<Section id="about" title="About Me" variant="muted">
+<Section id="about" title={title} variant="muted">
 	<div class="prose prose-slate dark:prose-invert max-w-none">
 		<p class="about-text">
-			Hi! I'm <strong class="about-emphasis">{PROFILE_NAME}</strong>, a Software
-			Engineer based in Tokyo.
+			{greeting}
 		</p>
-		<p class="about-text mt-4">
-			I mainly develop Node.js backend servers in TypeScript for business
-			projects.
-		</p>
-		<p class="about-text mt-4">
-			In personal projects, I build tools for household finance and develop 2D
-			games.
-		</p>
-		<p class="about-text mt-4">
-			My approach is largely specification-driven, leveraging AI agents—though I
-			never lose the joy of writing code myself.
-		</p>
+		{paragraphs.map((paragraph) => <p class="about-text mt-4">{paragraph}</p>)}
 	</div>
 </Section>
 

@@ -4,12 +4,19 @@ import Section from "./Section.astro";
 import Card from "./Card.astro";
 import Badge from "./Badge.astro";
 import { USERNAME } from "../lib/site.ts";
+import type { Dictionary } from "../i18n/dictionary.ts";
+import { formatTemplate } from "../i18n/index.ts";
+
+interface Props {
+	projects?: Dictionary["projects"];
+}
+
+const { projects } = Astro.props;
 
 interface Project {
 	name: string;
 	language: string;
 	languageColor: "blue" | "orange";
-	description: string;
 	stars?: number;
 	forks?: number;
 }
@@ -19,23 +26,17 @@ const PROJECTS: Project[] = [
 		name: "utopia",
 		language: "Rust",
 		languageColor: "orange",
-		description:
-			"A lightweight, self-hostable personal finance API with partial Firefly-III compatibility, written in Rust.",
 		stars: 1,
 	},
 	{
 		name: "luminescence",
 		language: "TypeScript",
 		languageColor: "blue",
-		description:
-			"A TypeScript-based multi-client application suite for Firefly III, providing shared personal finance management logic across mobile, web, and CLI platforms.",
 	},
 	{
 		name: "xiangke",
 		language: "Rust",
 		languageColor: "orange",
-		description:
-			"Xiangke (相剋; xiāngkè) is a turn-based battle game with menu-driven combat, inspired by Romance of the Three Kingdoms.",
 		stars: 1,
 		forks: 1,
 	},
@@ -43,13 +44,18 @@ const PROJECTS: Project[] = [
 		name: "pr-agent-runner",
 		language: "TypeScript",
 		languageColor: "blue",
-		description:
-			"AI-powered PR review automation built on OpenCodeReview (OCR) and a small TypeScript CLI that posts reviews and answers @mention commands on GitHub.",
 	},
 ];
+
+const title = projects?.title ?? "Projects";
+const descriptions = projects?.descriptions ?? {};
+const viewOnGitHubTemplate =
+	projects?.viewOnGitHubTemplate ?? "View {name} on GitHub";
+const starsTemplate = projects?.starsTemplate ?? "{count} star";
+const forksTemplate = projects?.forksTemplate ?? "{count} fork";
 ---
 
-<Section id="projects" title="Projects" variant="muted">
+<Section id="projects" title={title} variant="muted">
 	<div class="space-y-6">
 		{
 			PROJECTS.map((project) => (
@@ -59,7 +65,9 @@ const PROJECTS: Project[] = [
 					href={`https://github.com/${USERNAME}/${project.name}`}
 					target="_blank"
 					rel="noopener noreferrer"
-					ariaLabel={`View ${project.name} on GitHub`}
+					ariaLabel={formatTemplate(viewOnGitHubTemplate, {
+						name: project.name,
+					})}
 				>
 					<div class="flex justify-between items-start mb-3">
 						<h3 class="text-xl font-semibold text-slate-900 dark:text-white">
@@ -70,20 +78,20 @@ const PROJECTS: Project[] = [
 						</Badge>
 					</div>
 					<p class="text-slate-600 dark:text-slate-300 mb-3">
-						{project.description}
+						{descriptions[project.name] ?? ""}
 					</p>
 					{(project.stars || project.forks) && (
 						<div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
 							{project.stars ? (
 								<span class="flex items-center gap-1">
 									<Icon name="lucide:star" class="h-4 w-4" />
-									{project.stars} star
+									{formatTemplate(starsTemplate, { count: project.stars })}
 								</span>
 							) : null}
 							{project.forks ? (
 								<span class="flex items-center gap-1">
 									<Icon name="lucide:git-fork" class="h-4 w-4" />
-									{project.forks} fork
+									{formatTemplate(forksTemplate, { count: project.forks })}
 								</span>
 							) : null}
 						</div>
