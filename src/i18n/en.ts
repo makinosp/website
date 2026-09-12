@@ -59,7 +59,9 @@ export const en: Dictionary = {
     topRepos: "Top Repositories",
     loadingPushes: "Loading recent pushes…",
     loadingActivity: "Loading activity…",
+    loadingTopRepos: "Loading top repositories…",
     loadError: "Could not load GitHub activity. Please try again later.",
+    topReposLoadError: "Could not load top repositories. Please try again later.",
     labels: {
       commits: "Commits",
       pullRequests: "Pull requests",
