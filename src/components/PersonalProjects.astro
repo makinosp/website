@@ -1,0 +1,109 @@
+---
+import { Icon } from "astro-icon/components";
+import Section from "./Section.astro";
+import Card from "./Card.astro";
+import Badge from "./Badge.astro";
+import { USERNAME } from "../lib/site.ts";
+import type { Dictionary } from "../i18n/dictionary.ts";
+import { formatTemplate } from "../i18n/index.ts";
+
+interface Props {
+	personalProjects?: Dictionary["personalProjects"];
+}
+
+const { personalProjects } = Astro.props;
+
+interface Project {
+	name: string;
+	language: string;
+	languageColor: "blue" | "orange";
+	stars?: number;
+	forks?: number;
+	inDevelopment?: boolean;
+}
+
+const PROJECTS: Project[] = [
+	{
+		name: "utopia",
+		language: "Rust",
+		languageColor: "orange",
+		stars: 1,
+		inDevelopment: true,
+	},
+	{
+		name: "xiangke",
+		language: "Rust",
+		languageColor: "orange",
+		stars: 1,
+		forks: 1,
+		inDevelopment: true,
+	},
+	{
+		name: "pr-agent-runner",
+		language: "TypeScript",
+		languageColor: "blue",
+	},
+];
+
+const title = personalProjects?.title ?? "Personal Project";
+const descriptions = personalProjects?.descriptions ?? {};
+const inDevelopmentLabel = personalProjects?.inDevelopment ?? "In Development";
+const viewOnGitHubTemplate =
+	personalProjects?.viewOnGitHubTemplate ?? "View {name} on GitHub";
+const starsTemplate = personalProjects?.starsTemplate ?? "{count} star";
+const forksTemplate = personalProjects?.forksTemplate ?? "{count} fork";
+---
+
+<Section id="personalProjects" title={title} variant="muted">
+	<div class="space-y-6">
+		{
+			PROJECTS.map((project) => (
+				<Card
+					as="a"
+					hoverable
+					href={`https://github.com/${USERNAME}/${project.name}`}
+					target="_blank"
+					rel="noopener noreferrer"
+					ariaLabel={formatTemplate(viewOnGitHubTemplate, {
+						name: project.name,
+					})}
+				>
+					<div class="flex justify-between items-start mb-3">
+						<div class="flex items-center gap-2">
+							<h3 class="text-xl font-semibold text-slate-900 dark:text-white">
+								{project.name}
+							</h3>
+							{project.inDevelopment && (
+								<Badge color="yellow" size="sm">
+									{inDevelopmentLabel}
+								</Badge>
+							)}
+						</div>
+						<Badge color={project.languageColor} size="sm">
+							{project.language}
+						</Badge>
+					</div>
+					<p class="text-slate-600 dark:text-slate-300 mb-3">
+						{descriptions[project.name] ?? ""}
+					</p>
+					{(project.stars || project.forks) && (
+						<div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+							{project.stars ? (
+								<span class="flex items-center gap-1">
+									<Icon name="lucide:star" class="h-4 w-4" />
+									{formatTemplate(starsTemplate, { count: project.stars })}
+								</span>
+							) : null}
+							{project.forks ? (
+								<span class="flex items-center gap-1">
+									<Icon name="lucide:git-fork" class="h-4 w-4" />
+									{formatTemplate(forksTemplate, { count: project.forks })}
+								</span>
+							) : null}
+						</div>
+					)}
+				</Card>
+			))
+		}
+	</div>
+</Section>

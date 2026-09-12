@@ -9,7 +9,7 @@ export const en: Dictionary = {
   nav: {
     about: "About",
     tech: "Tech Stack",
-    projects: "Projects",
+    personalProjects: "Personal Project",
     stats: "Stats",
   },
   languageLabel: "Language",
@@ -35,13 +35,11 @@ export const en: Dictionary = {
       other: "Other",
     },
   },
-  projects: {
-    title: "Projects",
+  personalProjects: {
+    title: "Personal Project",
     descriptions: {
       utopia:
         "A lightweight, self-hostable personal finance API with partial Firefly-III compatibility, written in Rust.",
-      luminescence:
-        "A TypeScript-based multi-client application suite for Firefly III, providing shared personal finance management logic across mobile, web, and CLI platforms.",
       xiangke:
         "Xiangke (相剋; xiāngkè) is a turn-based battle game with menu-driven combat, inspired by Romance of the Three Kingdoms.",
       "pr-agent-runner":
@@ -50,6 +48,7 @@ export const en: Dictionary = {
     viewOnGitHubTemplate: "View {name} on GitHub",
     starsTemplate: "{count} star",
     forksTemplate: "{count} fork",
+    inDevelopment: "In Development",
   },
   stats: {
     title: "GitHub Stats",

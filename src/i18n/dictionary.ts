@@ -6,7 +6,7 @@ export interface Dictionary {
   nav: {
     about: string;
     tech: string;
-    projects: string;
+    personalProjects: string;
     stats: string;
   };
   languageLabel: string;
@@ -27,12 +27,13 @@ export interface Dictionary {
       other: string;
     };
   };
-  projects: {
+  personalProjects: {
     title: string;
     descriptions: Record<string, string>;
     viewOnGitHubTemplate: string;
     starsTemplate: string;
     forksTemplate: string;
+    inDevelopment: string;
   };
   stats: {
     title: string;
