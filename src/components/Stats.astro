@@ -2,40 +2,58 @@
 import Section from "./Section.astro";
 import Card from "./Card.astro";
 import ExternalLink from "./ExternalLink.astro";
-import { fetchGitHubStats } from "../lib/github.ts";
+import { fetchTopRepos } from "../lib/github.ts";
 
-const stats = await fetchGitHubStats();
+const topRepos = await fetchTopRepos();
 
 const statHeadingClass =
 	"text-lg font-semibold mb-3 text-slate-900 dark:text-white";
+const skeletonBar =
+	"inline-block h-4 w-24 animate-pulse rounded bg-slate-200 dark:bg-slate-700";
 ---
 
 <Section id="stats" title="GitHub Stats">
 	<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
 		<Card>
 			<h3 class={statHeadingClass}>Recent pushes</h3>
-			<p class="text-3xl font-bold text-blue-600 dark:text-blue-400">
-				{stats.recentPushes}
+			<p
+				id="github-push-count"
+				class="text-3xl font-bold text-blue-600 dark:text-blue-400"
+				aria-live="polite"
+			>
+				<span class={skeletonBar} aria-hidden="true"></span>
+				<span class="sr-only">Loading recent pushes…</span>
 			</p>
 			<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
 				pushes in the last 7 days
 			</p>
+			<p
+				id="github-stats-error"
+				class="text-sm text-red-600 dark:text-red-400 mt-2"
+				hidden
+			>
+			</p>
 		</Card>
 		<Card>
 			<h3 class={statHeadingClass}>Activity</h3>
-			<div class="space-y-2 text-sm">
-				{
-					stats.activity.map((slice) => (
-						<div class="flex justify-between">
-							<span class="text-slate-600 dark:text-slate-300">
-								{slice.label}
-							</span>
-							<span class="text-slate-900 dark:text-white font-medium">
-								{slice.percent}%
-							</span>
-						</div>
-					))
-				}
+			<div id="github-activity" class="space-y-2 text-sm" aria-live="polite">
+				<div class="flex justify-between">
+					<span class={skeletonBar} aria-hidden="true"></span>
+					<span class={skeletonBar} aria-hidden="true"></span>
+				</div>
+				<div class="flex justify-between">
+					<span class={skeletonBar} aria-hidden="true"></span>
+					<span class={skeletonBar} aria-hidden="true"></span>
+				</div>
+				<div class="flex justify-between">
+					<span class={skeletonBar} aria-hidden="true"></span>
+					<span class={skeletonBar} aria-hidden="true"></span>
+				</div>
+				<div class="flex justify-between">
+					<span class={skeletonBar} aria-hidden="true"></span>
+					<span class={skeletonBar} aria-hidden="true"></span>
+				</div>
+				<span class="sr-only">Loading activity…</span>
 			</div>
 		</Card>
 	</div>
@@ -44,7 +62,7 @@ const statHeadingClass =
 		<h3 class={statHeadingClass}>Top Repositories</h3>
 		<div class="space-y-3">
 			{
-				stats.topRepos.map((repo) => (
+				topRepos.map((repo) => (
 					<div class="flex items-center justify-between">
 						<ExternalLink
 							href={repo.htmlUrl}
@@ -62,3 +80,70 @@ const statHeadingClass =
 		</div>
 	</Card>
 </Section>
+
+<script>
+	import {
+		fetchActivityStats,
+		loadCachedActivity,
+		type ActivityStats,
+	} from "../lib/github-client.ts";
+	import { USERNAME } from "../lib/site.ts";
+
+	const pushEl = document.getElementById("github-push-count");
+	const activityEl = document.getElementById("github-activity");
+	const errorEl = document.getElementById("github-stats-error");
+
+	function renderActivity(stats: ActivityStats) {
+		if (pushEl) {
+			pushEl.textContent = String(stats.recentPushes);
+		}
+		if (activityEl) {
+			activityEl.innerHTML = "";
+			for (const slice of stats.activity) {
+				const row = document.createElement("div");
+				row.className = "flex justify-between";
+
+				const label = document.createElement("span");
+				label.className = "text-slate-600 dark:text-slate-300";
+				label.textContent = slice.label;
+
+				const value = document.createElement("span");
+				value.className = "text-slate-900 dark:text-white font-medium";
+				value.textContent = `${slice.percent}%`;
+
+				row.append(label, value);
+				activityEl.append(row);
+			}
+		}
+	}
+
+	function renderError() {
+		if (pushEl) {
+			pushEl.textContent = "—";
+		}
+		if (activityEl) {
+			activityEl.innerHTML = "";
+		}
+		if (errorEl) {
+			errorEl.textContent =
+				"Could not load GitHub activity. Please try again later.";
+			errorEl.hidden = false;
+		}
+	}
+
+	async function loadActivity() {
+		const cached = loadCachedActivity();
+		if (cached) {
+			renderActivity(cached);
+			return;
+		}
+		try {
+			const stats = await fetchActivityStats(USERNAME);
+			renderActivity(stats);
+		} catch {
+			renderError();
+		}
+	}
+
+	void loadActivity();
+</script>
