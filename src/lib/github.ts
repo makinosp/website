@@ -33,6 +33,13 @@ interface EventResponse {
   created_at: string;
 }
 
+/** Calculate the date 7 days ago in ISO 8601 format (UTC) */
+function getSevenDaysAgo(): string {
+  const date = new Date();
+  date.setUTCDate(date.getUTCDate() - 7);
+  return date.toISOString();
+}
+
 async function fetchJson<T>(url: string): Promise<T> {
   const response = await fetch(url, {
     headers: {
@@ -68,21 +75,24 @@ export async function fetchTopRepos(limit = 4): Promise<TopRepo[]> {
 export async function fetchGitHubStats(): Promise<GitHubStats> {
   const [topRepos, events] = await Promise.all([
     fetchTopRepos(),
-    fetchJson<EventResponse[]>(
-      `${GITHUB_API}/users/${USERNAME}/events/public?per_page=100`,
-    ),
+    fetchRecentEvents(),
   ]);
 
-  const commits = events.filter((event) => event.type === "PushEvent").length;
-  const pullRequests = events.filter(
+  const sevenDaysAgo = getSevenDaysAgo();
+  const recentEvents = events.filter(
+    (event) => event.created_at >= sevenDaysAgo,
+  );
+
+  const commits = recentEvents.filter((event) => event.type === "PushEvent").length;
+  const pullRequests = recentEvents.filter(
     (event) => event.type === "PullRequestEvent",
   ).length;
-  const codeReviews = events.filter(
+  const codeReviews = recentEvents.filter(
     (event) =>
       event.type === "PullRequestReviewEvent" ||
       event.type === "PullRequestReviewCommentEvent",
   ).length;
-  const issues = events.filter(
+  const issues = recentEvents.filter(
     (event) =>
       event.type === "IssuesEvent" || event.type === "IssueCommentEvent",
   ).length;
@@ -93,7 +103,7 @@ export async function fetchGitHubStats(): Promise<GitHubStats> {
 
   return {
     recentPushes: commits,
-    eventsTotal: events.length,
+    eventsTotal: recentEvents.length,
     activity: [
       { label: "Commits", percent: toPercent(commits) },
       { label: "Pull requests", percent: toPercent(pullRequests) },
@@ -102,4 +112,43 @@ export async function fetchGitHubStats(): Promise<GitHubStats> {
     ],
     topRepos,
   };
+}
+
+/** Fetch all public events from the last 7 days using pagination */
+async function fetchRecentEvents(): Promise<EventResponse[]> {
+  const sevenDaysAgo = getSevenDaysAgo();
+  const allEvents: EventResponse[] = [];
+  let page = 1;
+  const perPage = 100;
+
+  while (true) {
+    const events = await fetchJson<EventResponse[]>(
+      `${GITHUB_API}/users/${USERNAME}/events/public?per_page=${perPage}&page=${page}`,
+    );
+
+    if (events.length === 0) {
+      break;
+    }
+
+    // Check if the oldest event in this page is older than 7 days
+    const oldestEvent = events[events.length - 1];
+    if (oldestEvent.created_at < sevenDaysAgo) {
+      // Filter to only include events within the last 7 days
+      const recentInPage = events.filter(
+        (event) => event.created_at >= sevenDaysAgo,
+      );
+      allEvents.push(...recentInPage);
+      break;
+    }
+
+    allEvents.push(...events);
+    page++;
+
+    // Safety limit: don't fetch more than 10 pages (1000 events)
+    if (page > 10) {
+      break;
+    }
+  }
+
+  return allEvents;
 }
