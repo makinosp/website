@@ -27,7 +27,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
   },
   {
     label: "Steam",
-    href: "https://steamcommunity.com/id/makinosp/",
+    href: "https://steamcommunity.com/id/mknnjp/",
     icon: "simple-icons:steam",
   },
   { label: "Telegram", href: "https://t.me/mknnjp", icon: "simple-icons:telegram" },
