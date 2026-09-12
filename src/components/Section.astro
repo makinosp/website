@@ -1,0 +1,21 @@
+---
+import Container from "./Container.astro";
+
+interface Props {
+  id?: string;
+  title: string;
+  variant?: "plain" | "muted";
+}
+
+const { id, title, variant = "plain" } = Astro.props;
+const bg = variant === "muted" ? "bg-slate-50 dark:bg-slate-800/30" : "";
+---
+
+<section id={id} class={`py-20 ${bg}`}>
+  <Container>
+    <h2 class="text-3xl font-bold mb-8 text-slate-900 dark:text-white">
+      {title}
+    </h2>
+    <slot />
+  </Container>
+</section>

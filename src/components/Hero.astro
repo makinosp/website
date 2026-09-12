@@ -1,24 +1,34 @@
 ---
-import { Icon } from "astro-icon/components";
+import Container from "./Container.astro";
+import ExternalLink from "./ExternalLink.astro";
+import SocialIcon from "./SocialIcon.astro";
+import { SOCIAL_LINKS } from "../lib/social.ts";
+import {
+	AVATAR_URL,
+	DISPLAY_NAME_COMPACT,
+	PROFILE_NAME,
+	PROFILE_NAME_JA,
+} from "../lib/site.ts";
 ---
 
 <section class="min-h-screen flex items-center justify-center pt-16">
-	<div class="max-w-4xl mx-auto px-6 py-20 text-center">
+	<Container class="py-20 text-center">
 		<div class="avatar-frame relative inline-block mb-8 rounded-full shadow-xl">
 			<div class="avatar-shimmer">
 				<img
-					src="https://avatars.githubusercontent.com/u/130737299?v=4"
-					alt="Makinon (まきのん)"
+					src={AVATAR_URL}
+					alt={DISPLAY_NAME_COMPACT}
 					class="block w-32 h-32 rounded-full object-cover border-4 border-slate-200 dark:border-slate-700"
 				/>
 			</div>
 		</div>
 		<h1
 			class="heading-shimmer relative block w-fit mx-auto mb-4 text-5xl md:text-6xl font-extrabold"
-			data-text="Makinon(まきのん)"
+			data-text={DISPLAY_NAME_COMPACT}
 		>
-			<span class="text-slate-900 dark:text-white">Makinon</span>
-			<span class="text-yellow-400 dark:text-yellow-200">(まきのん)</span>
+			<span class="text-slate-900 dark:text-white">{PROFILE_NAME}</span>
+			<span class="text-yellow-400 dark:text-yellow-200">{PROFILE_NAME_JA}</span
+			>
 		</h1>
 		<p
 			class="text-xl text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto"
@@ -26,96 +36,18 @@ import { Icon } from "astro-icon/components";
 			Software Engineer based in Tokyo, focusing on Web development.
 		</p>
 		<div class="flex flex-wrap justify-center gap-4 mb-8">
-			<a
-				href="https://bsky.app/profile/mknn.jp"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="flex items-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-			>
-				<Icon name="simple-icons:bluesky" class="h-5 w-5" />
-				Bluesky
-			</a>
-			<a
-				href="https://discord.com/channels/@me/257326164996128770"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="flex items-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-			>
-				<Icon name="simple-icons:discord" class="h-5 w-5" />
-				Discord
-			</a>
-			<a
-				href="https://github.com/makinosp"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="flex items-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-			>
-				<Icon name="simple-icons:github" class="h-5 w-5" />
-				GitHub
-			</a>
-			<a
-				href="https://www.instagram.com/makinosp/"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="flex items-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-			>
-				<Icon name="simple-icons:instagram" class="h-5 w-5" />
-				Instagram
-			</a>
-			<a
-				href="https://open.spotify.com/user/sheeptech"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="flex items-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-			>
-				<Icon name="simple-icons:spotify" class="h-5 w-5" />
-				Spotify
-			</a>
-			<a
-				href="https://steamcommunity.com/id/makinosp/"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="flex items-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-			>
-				<Icon name="simple-icons:steam" class="h-5 w-5" />
-				Steam
-			</a>
-			<a
-				href="https://t.me/mknnjp"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="flex items-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-			>
-				<Icon name="simple-icons:telegram" class="h-5 w-5" />
-				Telegram
-			</a>
-			<a
-				href="https://www.threads.net/@mknn.jp"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="flex items-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-			>
-				<Icon name="simple-icons:threads" class="h-5 w-5" />
-				Threads
-			</a>
-			<a
-				href="https://vrchat.com/home/user/usr_d23319bc-086d-45e8-83ff-fb9ecb026d1f"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="flex items-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-			>
-				<img src="/VRC.svg" alt="VRChat" class="h-5 w-5" />
-				VRChat
-			</a>
-			<a
-				href="https://x.com/mknnjp"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="flex items-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-			>
-				<Icon name="simple-icons:x" class="h-5 w-5" />
-				X
-			</a>
+			{
+				SOCIAL_LINKS.map((link) => (
+					<ExternalLink href={link.href} ariaLabel={link.label} variant="pill">
+						<SocialIcon
+							icon={link.icon}
+							imgSrc={link.imgSrc}
+							label={link.label}
+						/>
+						{link.label}
+					</ExternalLink>
+				))
+			}
 		</div>
-	</div>
+	</Container>
 </section>

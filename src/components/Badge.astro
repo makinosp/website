@@ -1,0 +1,42 @@
+---
+interface Props {
+  color?:
+    | "blue"
+    | "orange"
+    | "green"
+    | "purple"
+    | "cyan"
+    | "yellow"
+    | "red"
+    | "indigo"
+    | "pink";
+  size?: "sm" | "md";
+}
+
+const { color = "blue", size = "md" } = Astro.props;
+
+const colors: Record<NonNullable<Props["color"]>, string> = {
+  blue: "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300",
+  orange:
+    "bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300",
+  green: "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300",
+  purple:
+    "bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300",
+  cyan: "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-800 dark:text-cyan-300",
+  yellow:
+    "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300",
+  red: "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300",
+  indigo:
+    "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300",
+  pink: "bg-pink-100 dark:bg-pink-900/30 text-pink-800 dark:text-pink-300",
+};
+
+const sizes: Record<NonNullable<Props["size"]>, string> = {
+  sm: "px-2 py-1 text-xs font-medium rounded",
+  md: "px-4 py-2 rounded-lg font-medium",
+};
+---
+
+<span class={`${sizes[size]} ${colors[color]}`}>
+  <slot />
+</span>

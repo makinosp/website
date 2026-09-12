@@ -1,35 +1,27 @@
 ---
-
+import Section from "./Section.astro";
+import { DISPLAY_NAME } from "../lib/site.ts";
 ---
 
-<section id="about" class="py-20 bg-slate-50 dark:bg-slate-800/30">
-	<div class="max-w-4xl mx-auto px-6">
-		<h2 class="text-3xl font-bold mb-8 text-slate-900 dark:text-white">
-			About Me
-		</h2>
-		<div class="prose prose-slate dark:prose-invert max-w-none">
-			<p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-				Hi! I'm <strong class="text-slate-900 dark:text-white"
-					>Makinon (まきのん)</strong
-				>, a Software Engineer based in Tokyo.
-			</p>
-			<p
-				class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed mt-4"
-			>
-				My core philosophy is centered around <strong
-					class="text-slate-900 dark:text-white">code quality</strong
-				> and
-				<strong class="text-slate-900 dark:text-white">
-					long-term maintainability</strong
-				>. I believe that well-crafted code should be readable, testable, and
-				sustainable over time.
-			</p>
-			<p
-				class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed mt-4"
-			>
-				I'm currently focused on web development and building scalable
-				applications.
-			</p>
-		</div>
+<Section id="about" title="About Me" variant="muted">
+	<div class="prose prose-slate dark:prose-invert max-w-none">
+		<p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+			Hi! I'm <strong class="text-slate-900 dark:text-white"
+				>{DISPLAY_NAME}</strong
+			>, a Software Engineer based in Tokyo.
+		</p>
+		<p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed mt-4">
+			My core philosophy is centered around <strong
+				class="text-slate-900 dark:text-white">code quality</strong
+			> and
+			<strong class="text-slate-900 dark:text-white">
+				long-term maintainability</strong
+			>. I believe that well-crafted code should be readable, testable, and
+			sustainable over time.
+		</p>
+		<p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed mt-4">
+			I'm currently focused on web development and building scalable
+			applications.
+		</p>
 	</div>
-</section>
+</Section>

@@ -1,77 +1,64 @@
 ---
+import Section from "./Section.astro";
+import Card from "./Card.astro";
+import ExternalLink from "./ExternalLink.astro";
 import { fetchGitHubStats } from "../lib/github.ts";
 
 const stats = await fetchGitHubStats();
+
+const statHeadingClass =
+	"text-lg font-semibold mb-3 text-slate-900 dark:text-white";
 ---
 
-<section id="stats" class="py-20">
-	<div class="max-w-4xl mx-auto px-6">
-		<h2 class="text-3xl font-bold mb-8 text-slate-900 dark:text-white">
-			GitHub Stats
-		</h2>
-
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-			<div
-				class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700"
-			>
-				<h3 class="text-lg font-semibold mb-3 text-slate-900 dark:text-white">
-					Recent pushes
-				</h3>
-				<p class="text-3xl font-bold text-blue-600 dark:text-blue-400">
-					{stats.recentPushes}
-				</p>
-				<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-					pushes in the last {stats.eventsTotal} public events
-				</p>
-			</div>
-			<div
-				class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700"
-			>
-				<h3 class="text-lg font-semibold mb-3 text-slate-900 dark:text-white">
-					Activity
-				</h3>
-				<div class="space-y-2 text-sm">
-					{
-						stats.activity.map((slice) => (
-							<div class="flex justify-between">
-								<span class="text-slate-600 dark:text-slate-300">
-									{slice.label}
-								</span>
-								<span class="text-slate-900 dark:text-white font-medium">
-									{slice.percent}%
-								</span>
-							</div>
-						))
-					}
-				</div>
-			</div>
-		</div>
-
-		<div
-			class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700"
-		>
-			<h3 class="text-lg font-semibold mb-3 text-slate-900 dark:text-white">
-				Top Repositories
-			</h3>
-			<div class="space-y-3">
+<Section id="stats" title="GitHub Stats">
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+		<Card>
+			<h3 class={statHeadingClass}>Recent pushes</h3>
+			<p class="text-3xl font-bold text-blue-600 dark:text-blue-400">
+				{stats.recentPushes}
+			</p>
+			<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+				pushes in the last 7 days
+			</p>
+		</Card>
+		<Card>
+			<h3 class={statHeadingClass}>Activity</h3>
+			<div class="space-y-2 text-sm">
 				{
-					stats.topRepos.map((repo) => (
-						<div class="flex items-center justify-between">
-							<a
-								href={repo.htmlUrl}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="text-blue-600 dark:text-blue-400 hover:underline"
-							>
-								{repo.name}
-							</a>
-							<span class="text-sm text-slate-500 dark:text-slate-400">
-								{repo.language}
+					stats.activity.map((slice) => (
+						<div class="flex justify-between">
+							<span class="text-slate-600 dark:text-slate-300">
+								{slice.label}
+							</span>
+							<span class="text-slate-900 dark:text-white font-medium">
+								{slice.percent}%
 							</span>
 						</div>
 					))
 				}
 			</div>
-		</div>
+		</Card>
 	</div>
-</section>
+
+	<Card>
+		<h3 class={statHeadingClass}>Top Repositories</h3>
+		<div class="space-y-3">
+			{
+				stats.topRepos.map((repo) => (
+					<div class="flex items-center justify-between">
+						<ExternalLink
+							href={repo.htmlUrl}
+							variant="none"
+							class="text-blue-600 dark:text-blue-400 hover:underline"
+						>
+							{repo.name}
+						</ExternalLink>
+						<span class="text-sm text-slate-500 dark:text-slate-400">
+							{repo.language}
+						</span>
+					</div>
+				))
+			}
+		</div>
+	</Card>
+</Section>
