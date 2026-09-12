@@ -9,7 +9,7 @@ export const zhCn: Dictionary = {
   nav: {
     about: "关于我",
     tech: "技术栈",
-    projects: "项目",
+    personalProjects: "个人项目",
     stats: "统计",
   },
   languageLabel: "语言",
@@ -34,13 +34,11 @@ export const zhCn: Dictionary = {
       other: "其他",
     },
   },
-  projects: {
-    title: "项目",
+  personalProjects: {
+    title: "个人项目",
     descriptions: {
       utopia:
         "轻量、可自托管的个人记账 API，部分兼容 Firefly III，使用 Rust 编写。",
-      luminescence:
-        "面向 Firefly III 的 TypeScript 多客户端应用套件，在移动端、Web 端和 CLI 之间共享个人记账逻辑。",
       xiangke:
         "Xiangke（相剋; xiāngkè）是一款以三国为灵感、菜单驱动战斗的回合制游戏。",
       "pr-agent-runner":
@@ -49,6 +47,7 @@ export const zhCn: Dictionary = {
     viewOnGitHubTemplate: "在 GitHub 上查看{name}",
     starsTemplate: "{count} 个 Star",
     forksTemplate: "{count} 个 Fork",
+    inDevelopment: "开发中",
   },
   stats: {
     title: "GitHub 统计",

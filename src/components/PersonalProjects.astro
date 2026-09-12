@@ -8,10 +8,10 @@ import type { Dictionary } from "../i18n/dictionary.ts";
 import { formatTemplate } from "../i18n/index.ts";
 
 interface Props {
-	projects?: Dictionary["projects"];
+	personalProjects?: Dictionary["personalProjects"];
 }
 
-const { projects } = Astro.props;
+const { personalProjects } = Astro.props;
 
 interface Project {
 	name: string;
@@ -19,6 +19,7 @@ interface Project {
 	languageColor: "blue" | "orange";
 	stars?: number;
 	forks?: number;
+	inDevelopment?: boolean;
 }
 
 const PROJECTS: Project[] = [
@@ -27,11 +28,7 @@ const PROJECTS: Project[] = [
 		language: "Rust",
 		languageColor: "orange",
 		stars: 1,
-	},
-	{
-		name: "luminescence",
-		language: "TypeScript",
-		languageColor: "blue",
+		inDevelopment: true,
 	},
 	{
 		name: "xiangke",
@@ -39,6 +36,7 @@ const PROJECTS: Project[] = [
 		languageColor: "orange",
 		stars: 1,
 		forks: 1,
+		inDevelopment: true,
 	},
 	{
 		name: "pr-agent-runner",
@@ -47,15 +45,16 @@ const PROJECTS: Project[] = [
 	},
 ];
 
-const title = projects?.title ?? "Projects";
-const descriptions = projects?.descriptions ?? {};
+const title = personalProjects?.title ?? "Personal Project";
+const descriptions = personalProjects?.descriptions ?? {};
+const inDevelopmentLabel = personalProjects?.inDevelopment ?? "In Development";
 const viewOnGitHubTemplate =
-	projects?.viewOnGitHubTemplate ?? "View {name} on GitHub";
-const starsTemplate = projects?.starsTemplate ?? "{count} star";
-const forksTemplate = projects?.forksTemplate ?? "{count} fork";
+	personalProjects?.viewOnGitHubTemplate ?? "View {name} on GitHub";
+const starsTemplate = personalProjects?.starsTemplate ?? "{count} star";
+const forksTemplate = personalProjects?.forksTemplate ?? "{count} fork";
 ---
 
-<Section id="projects" title={title} variant="muted">
+<Section id="personalProjects" title={title} variant="muted">
 	<div class="space-y-6">
 		{
 			PROJECTS.map((project) => (
@@ -70,9 +69,16 @@ const forksTemplate = projects?.forksTemplate ?? "{count} fork";
 					})}
 				>
 					<div class="flex justify-between items-start mb-3">
-						<h3 class="text-xl font-semibold text-slate-900 dark:text-white">
-							{project.name}
-						</h3>
+						<div class="flex items-center gap-2">
+							<h3 class="text-xl font-semibold text-slate-900 dark:text-white">
+								{project.name}
+							</h3>
+							{project.inDevelopment && (
+								<Badge color="yellow" size="sm">
+									{inDevelopmentLabel}
+								</Badge>
+							)}
+						</div>
 						<Badge color={project.languageColor} size="sm">
 							{project.language}
 						</Badge>

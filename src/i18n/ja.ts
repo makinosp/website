@@ -9,7 +9,7 @@ export const ja: Dictionary = {
   nav: {
     about: "自己紹介",
     tech: "技術スタック",
-    projects: "プロジェクト",
+    personalProjects: "個人プロジェクト",
     stats: "統計",
   },
   languageLabel: "言語",
@@ -35,13 +35,11 @@ export const ja: Dictionary = {
       other: "その他",
     },
   },
-  projects: {
-    title: "プロジェクト",
+  personalProjects: {
+    title: "個人プロジェクト",
     descriptions: {
       utopia:
         "Firefly IIIと部分互換の軽量・セルフホスト可能な個人向け家計管理API。Rust製。",
-      luminescence:
-        "Firefly III向けのTypeScript製マルチクライアントアプリケーション群。モバイル・Web・CLIで共通の家計管理ロジックを提供します。",
       xiangke:
         "Xiangke（相剋; xiāngkè）は三国志に着想を得た、メニュー選択式のターンバトルゲームです。",
       "pr-agent-runner":
@@ -50,6 +48,7 @@ export const ja: Dictionary = {
     viewOnGitHubTemplate: "GitHubで{name}を見る",
     starsTemplate: "スター {count} 件",
     forksTemplate: "フォーク {count} 件",
+    inDevelopment: "開発中",
   },
   stats: {
     title: "GitHub統計",
