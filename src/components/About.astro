@@ -1,25 +1,25 @@
 ---
 import Section from "./Section.astro";
-import { DISPLAY_NAME } from "../lib/site.ts";
+import { PROFILE_NAME } from "../lib/site.ts";
 ---
 
 <Section id="about" title="About Me" variant="muted">
 	<div class="prose prose-slate dark:prose-invert max-w-none">
 		<p class="about-text">
-			Hi! I'm <strong class="about-emphasis">{DISPLAY_NAME}</strong>, a Software
+			Hi! I'm <strong class="about-emphasis">{PROFILE_NAME}</strong>, a Software
 			Engineer based in Tokyo.
 		</p>
 		<p class="about-text mt-4">
-			My core philosophy is centered around <strong class="about-emphasis"
-				>code quality</strong
-			> and
-			<strong class="about-emphasis">long-term maintainability</strong>. I
-			believe that well-crafted code should be readable, testable, and
-			sustainable over time.
+			I mainly develop Node.js backend servers in TypeScript for business
+			projects.
 		</p>
 		<p class="about-text mt-4">
-			I'm currently focused on web development and building scalable
-			applications.
+			In personal projects, I build tools for household finance and develop 2D
+			games.
+		</p>
+		<p class="about-text mt-4">
+			My approach is largely specification-driven, leveraging AI agents—though I
+			never lose the joy of writing code myself.
 		</p>
 	</div>
 </Section>
