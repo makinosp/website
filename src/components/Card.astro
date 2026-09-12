@@ -1,0 +1,46 @@
+---
+interface Props {
+  as?: "div" | "a";
+  href?: string;
+  target?: string;
+  rel?: string;
+  ariaLabel?: string;
+  hoverable?: boolean;
+  class?: string;
+}
+
+const {
+  as = "div",
+  href,
+  target,
+  rel,
+  ariaLabel,
+  hoverable = false,
+  class: className = "",
+}: Props = Astro.props;
+
+const base =
+  "bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700";
+const hover =
+  "block hover:shadow-lg transition-shadow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600";
+const classes = `${base}${hoverable ? ` ${hover}` : ""}${className ? ` ${className}` : ""}`;
+const Tag = as;
+---
+
+{
+  Tag === "a" ? (
+    <a
+      href={href}
+      target={target}
+      rel={rel}
+      aria-label={ariaLabel}
+      class={classes}
+    >
+      <slot />
+    </a>
+  ) : (
+    <div class={classes}>
+      <slot />
+    </div>
+  )
+}
