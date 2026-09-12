@@ -83,4 +83,9 @@ export const en: Dictionary = {
       icons: "Icons",
     },
   },
+  qqModal: {
+    openLabel: "Show QQ QR code",
+    closeLabel: "Close QQ QR code dialog",
+    qrAlt: "QQ QR code",
+  },
 };

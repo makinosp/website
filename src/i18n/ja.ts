@@ -84,4 +84,9 @@ export const ja: Dictionary = {
       icons: "アイコン",
     },
   },
+  qqModal: {
+    openLabel: "QQのQRコードを表示",
+    closeLabel: "QQのQRコードダイアログを閉じる",
+    qrAlt: "QQのQRコード",
+  },
 };

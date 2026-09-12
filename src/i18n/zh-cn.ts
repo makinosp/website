@@ -82,4 +82,9 @@ export const zhCn: Dictionary = {
       icons: "图标",
     },
   },
+  qqModal: {
+    openLabel: "显示 QQ 二维码",
+    closeLabel: "关闭 QQ 二维码对话框",
+    qrAlt: "QQ 二维码",
+  },
 };

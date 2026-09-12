@@ -3,6 +3,7 @@ import Container from "./Container.astro";
 import ExternalLink from "./ExternalLink.astro";
 import SocialIcon from "./SocialIcon.astro";
 import LicensesModal from "./LicensesModal.astro";
+import QqModal from "./QqModal.astro";
 import { SOCIAL_LINKS } from "../lib/social.ts";
 import { COPYRIGHT_YEAR } from "../lib/site.ts";
 import { DISPLAY_NAMES, type Locale } from "../i18n/locales.ts";
@@ -12,12 +13,14 @@ interface Props {
 	locale?: Locale;
 	footer?: Dictionary["footer"];
 	licensesModal?: Dictionary["licensesModal"];
+	qqModal?: Dictionary["qqModal"];
 }
 
-const { locale = "en", footer, licensesModal } = Astro.props;
+const { locale = "en", footer, licensesModal, qqModal } = Astro.props;
 const displayName = DISPLAY_NAMES[locale];
 const rightsSuffix = footer?.rightsSuffix ?? "All rights reserved.";
 const licensesButton = footer?.licensesButton ?? "Third-party licenses";
+const qqOpenLabel = qqModal?.openLabel ?? "Show QQ QR code";
 ---
 
 <footer class="py-12 border-t border-slate-200 dark:border-slate-800">
@@ -38,22 +41,41 @@ const licensesButton = footer?.licensesButton ?? "Third-party licenses";
 			</div>
 			<div class="flex flex-wrap justify-center gap-4">
 				{
-					SOCIAL_LINKS.map((link) => (
-						<ExternalLink
-							href={link.href}
-							ariaLabel={link.label}
-							variant="muted"
-						>
-							<SocialIcon
-								icon={link.icon}
-								imgSrc={link.imgSrc}
-								label={link.label}
-							/>
-						</ExternalLink>
-					))
+					SOCIAL_LINKS.map((link) => {
+						if (link.modal === "qq") {
+							return (
+								<button
+									type="button"
+									data-qq-open
+									aria-label={qqOpenLabel}
+									class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
+								>
+									<SocialIcon
+										icon={link.icon}
+										imgSrc={link.imgSrc}
+										label={link.label}
+									/>
+								</button>
+							);
+						}
+						return (
+							<ExternalLink
+								href={link.href!}
+								ariaLabel={link.label}
+								variant="muted"
+							>
+								<SocialIcon
+									icon={link.icon}
+									imgSrc={link.imgSrc}
+									label={link.label}
+								/>
+							</ExternalLink>
+						);
+					})
 				}
 			</div>
 		</div>
 	</Container>
 	<LicensesModal licensesModal={licensesModal} />
+	<QqModal qqModal={qqModal} />
 </footer>
