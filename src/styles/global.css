@@ -2,6 +2,95 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@layer components {
+  .avatar-frame {
+    line-height: 0;
+  }
+
+  .avatar-shimmer {
+    position: relative;
+    display: block;
+    border-radius: 9999px;
+  }
+
+  .avatar-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    background: linear-gradient(100deg,
+        transparent 20%,
+        rgba(255, 255, 255, 0.35) 38%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(255, 255, 255, 0.35) 62%,
+        transparent 80%);
+    background-size: 250% 100%;
+    background-position: 130% 0;
+    pointer-events: none;
+    animation: shimmer 2.8s linear infinite;
+  }
+
+  .dark .avatar-shimmer::after {
+    opacity: 0.65;
+  }
+
+  .heading-shimmer {
+    position: relative;
+    display: block;
+  }
+
+  .heading-shimmer::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(100deg,
+        transparent 20%,
+        rgba(255, 255, 255, 0.35) 38%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(255, 255, 255, 0.35) 62%,
+        transparent 80%);
+    background-size: 250% 100%;
+    background-position: 130% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    pointer-events: none;
+    white-space: nowrap;
+    font: inherit;
+    line-height: inherit;
+    animation: shimmer 2.8s linear infinite;
+  }
+
+  .dark .heading-shimmer::after {
+    opacity: 0.65;
+  }
+
+  .dark .heading-shimmer::after {
+    opacity: 0.65;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 130% 0;
+  }
+
+  to {
+    background-position: -30% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .avatar-shimmer::after,
+  .heading-shimmer::after {
+    animation: none;
+    opacity: 0.15;
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;

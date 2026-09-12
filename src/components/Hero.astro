@@ -4,14 +4,19 @@ import { Icon } from "astro-icon/components";
 
 <section class="min-h-screen flex items-center justify-center pt-16">
 	<div class="max-w-4xl mx-auto px-6 py-20 text-center">
-		<div class="mb-8">
-			<img
-				src="https://avatars.githubusercontent.com/u/130737299?v=4"
-				alt="Makinon (まきのん)"
-				class="w-32 h-32 rounded-full mx-auto mb-6 object-cover border-4 border-slate-200 dark:border-slate-700 shadow-xl"
-			/>
+		<div class="avatar-frame relative inline-block mb-8 rounded-full shadow-xl">
+			<div class="avatar-shimmer">
+				<img
+					src="https://avatars.githubusercontent.com/u/130737299?v=4"
+					alt="Makinon (まきのん)"
+					class="block w-32 h-32 rounded-full object-cover border-4 border-slate-200 dark:border-slate-700"
+				/>
+			</div>
 		</div>
-		<h1 class="text-5xl md:text-6xl font-extrabold mb-4">
+		<h1
+			class="heading-shimmer relative block w-fit mx-auto mb-4 text-5xl md:text-6xl font-extrabold"
+			data-text="Makinon(まきのん)"
+		>
 			<span class="text-slate-900 dark:text-white">Makinon</span>
 			<span class="text-yellow-400 dark:text-yellow-200">(まきのん)</span>
 		</h1>
