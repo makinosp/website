@@ -1,5 +1,20 @@
 ---
 import "../styles/global.css";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../lib/site.ts";
+
+interface Props {
+	title?: string;
+	description?: string;
+	canonical?: string;
+}
+
+const {
+	title = SITE_TITLE,
+	description = SITE_DESCRIPTION,
+	canonical,
+} = Astro.props;
+const siteUrl = Astro.site?.toString().replace(/\/$/, "");
+const canonicalUrl = canonical ?? (siteUrl ? `${siteUrl}/` : undefined);
 ---
 
 <!doctype html>
@@ -7,13 +22,18 @@ import "../styles/global.css";
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta
-			name="description"
-			content="Makinon (まきのん) - Software Engineer based in Tokyo, focusing on Web development with TypeScript, Rust, and Node.js."
-		/>
+		<meta name="description" content={description} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Makinon (まきのん) - Portfolio</title>
+		<title>{title}</title>
+		{canonicalUrl ? <link rel="canonical" href={canonicalUrl} /> : null}
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		{canonicalUrl ? <meta property="og:url" content={canonicalUrl} /> : null}
+		<meta property="og:type" content="website" />
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -27,12 +47,3 @@ import "../styles/global.css";
 		<slot />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		scroll-behavior: smooth;
-	}
-</style>

@@ -1,71 +1,68 @@
 ---
+import Section from "./Section.astro";
+import Badge from "./Badge.astro";
 
+interface TechItem {
+	label: string;
+	color:
+		| "blue"
+		| "orange"
+		| "green"
+		| "purple"
+		| "cyan"
+		| "yellow"
+		| "red"
+		| "indigo"
+		| "pink";
+}
+
+interface TechCategory {
+	title: string;
+	items: TechItem[];
+}
+
+const CATEGORIES: TechCategory[] = [
+	{
+		title: "Languages",
+		items: [
+			{ label: "TypeScript", color: "blue" },
+			{ label: "Rust", color: "orange" },
+		],
+	},
+	{
+		title: "Frameworks & Tools",
+		items: [
+			{ label: "Node.js", color: "green" },
+			{ label: "Fastify", color: "purple" },
+			{ label: "Astro", color: "cyan" },
+			{ label: "Tailwind CSS", color: "yellow" },
+		],
+	},
+	{
+		title: "Other",
+		items: [
+			{ label: "Docker", color: "red" },
+			{ label: "PostgreSQL", color: "indigo" },
+			{ label: "Git", color: "pink" },
+		],
+	},
+];
+
+const subheadingClass =
+	"text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200";
 ---
 
-<section id="tech" class="py-20">
-	<div class="max-w-4xl mx-auto px-6">
-		<h2 class="text-3xl font-bold mb-8 text-slate-900 dark:text-white">
-			Tech Stack
-		</h2>
-
-		<div class="mb-10">
-			<h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200">
-				Languages
-			</h3>
-			<div class="flex flex-wrap gap-3">
-				<span
-					class="px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-lg font-medium"
-					>TypeScript</span
-				>
-				<span
-					class="px-4 py-2 bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300 rounded-lg font-medium"
-					>Rust</span
-				>
+<Section id="tech" title="Tech Stack">
+	{
+		CATEGORIES.map((category, index) => (
+			<div class={index < CATEGORIES.length - 1 ? "mb-10" : ""}>
+				<h3 class={subheadingClass}>{category.title}</h3>
+				<div class="flex flex-wrap gap-3">
+					{category.items.map((item) => (
+						<Badge color={item.color}>{item.label}</Badge>
+					))}
+				</div>
 			</div>
-		</div>
-
-		<div class="mb-10">
-			<h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200">
-				Frameworks & Tools
-			</h3>
-			<div class="flex flex-wrap gap-3">
-				<span
-					class="px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-lg font-medium"
-					>Node.js</span
-				>
-				<span
-					class="px-4 py-2 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded-lg font-medium"
-					>Fastify</span
-				>
-				<span
-					class="px-4 py-2 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-800 dark:text-cyan-300 rounded-lg font-medium"
-					>Astro</span
-				>
-				<span
-					class="px-4 py-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 rounded-lg font-medium"
-					>Tailwind CSS</span
-				>
-			</div>
-		</div>
-
-		<div>
-			<h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200">
-				Other
-			</h3>
-			<div class="flex flex-wrap gap-3">
-				<span
-					class="px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 rounded-lg font-medium"
-					>Docker</span
-				>
-				<span
-					class="px-4 py-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 rounded-lg font-medium"
-					>PostgreSQL</span
-				>
-				<span
-					class="px-4 py-2 bg-pink-100 dark:bg-pink-900/30 text-pink-800 dark:text-pink-300 rounded-lg font-medium"
-					>Git</span
-				>
-			</div>
-		</div>
-	</div>
-</section>
+		))
+	}
+</Section>

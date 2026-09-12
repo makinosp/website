@@ -1,5 +1,10 @@
 ---
+import ExternalLink from "./ExternalLink.astro";
+import { LICENSE_CATEGORIES } from "../lib/licenses.ts";
 
+const categoryHeadingClass =
+  "mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400";
+const licenseNoteClass = "text-slate-500 dark:text-slate-400";
 ---
 
 <dialog
@@ -45,209 +50,23 @@
     </div>
 
     <div class="space-y-6 text-sm">
-      <section>
-        <h3
-          class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
-        >
-          Runtime
-        </h3>
-        <ul class="space-y-2">
-          <li>
-            <a
-              href="https://github.com/withastro/astro"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
-              >Astro 7.2.0</a
-            >{" "}
-            <span class="text-slate-500 dark:text-slate-400">
-              — MIT License
-            </span>
-          </li>
-          <li>
-            <a
-              href="https://github.com/natemoo-re/astro-icon"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
-              >astro-icon 1.1.5</a
-            >{" "}
-            <span class="text-slate-500 dark:text-slate-400">
-              — MIT License
-            </span>
-          </li>
-        </ul>
-      </section>
-
-      <section>
-        <h3
-          class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
-        >
-          Build tooling
-        </h3>
-        <ul class="space-y-2">
-          <li>
-            <a
-              href="https://github.com/tailwindlabs/tailwindcss"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
-              >Tailwind CSS 4.3.3</a
-            >{" "}
-            <span class="text-slate-500 dark:text-slate-400">
-              — MIT License
-            </span>
-          </li>
-          <li>
-            <a
-              href="https://github.com/tailwindlabs/tailwindcss"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
-              >@tailwindcss/vite 4.3.3</a
-            >{" "}
-            <span class="text-slate-500 dark:text-slate-400">
-              — MIT License
-            </span>
-          </li>
-          <li>
-            <a
-              href="https://github.com/microsoft/TypeScript"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
-              >TypeScript 6.0.3</a
-            >{" "}
-            <span class="text-slate-500 dark:text-slate-400">
-              — Apache License 2.0
-            </span>
-          </li>
-          <li>
-            <a
-              href="https://github.com/withastro/astro"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
-              >@astrojs/check 0.9.10</a
-            >{" "}
-            <span class="text-slate-500 dark:text-slate-400">
-              — MIT License
-            </span>
-          </li>
-          <li>
-            <a
-              href="https://github.com/DefinitelyTyped/DefinitelyTyped"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
-              >@types/node 26.4.0</a
-            >{" "}
-            <span class="text-slate-500 dark:text-slate-400">
-              — MIT License
-            </span>
-          </li>
-        </ul>
-      </section>
-
-      <section>
-        <h3
-          class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
-        >
-          Fonts
-        </h3>
-        <ul class="space-y-2">
-          <li>
-            <a
-              href="https://github.com/rsms/inter"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
-              >Inter</a
-            >{" "}
-            <span class="text-slate-500 dark:text-slate-400">
-              by Rasmus Andersson — SIL Open Font License 1.1, loaded via Google
-              Fonts
-            </span>
-          </li>
-          <li>
-            <a
-              href="https://github.com/tonsky/FiraCode"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
-              >Fira Code</a
-            >{" "}
-            <span class="text-slate-500 dark:text-slate-400">
-              by Nikita Prokopov — SIL Open Font License 1.1, loaded via Google
-              Fonts
-            </span>
-          </li>
-        </ul>
-      </section>
-
-      <section>
-        <h3
-          class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
-        >
-          Icons
-        </h3>
-        <ul class="space-y-2">
-          <li>
-            <a
-              href="https://github.com/lucide-icons/lucide"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
-              >Lucide</a
-            >{" "}
-            <span class="text-slate-500 dark:text-slate-400">
-              (via @iconify-json/lucide 1.2.130) — ISC License; includes
-              portions derived from Feather Icons (MIT License, copyright Cole
-              Bemis)
-            </span>
-          </li>
-          <li>
-            <a
-              href="https://github.com/simple-icons/simple-icons"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
-              >Simple Icons</a
-            >{" "}
-            <span class="text-slate-500 dark:text-slate-400">
-              (via @iconify-json/simple-icons 1.2.95) — CC0 1.0 Universal; brand
-              trademarks belong to their respective owners
-            </span>
-          </li>
-          <li>
-            <a
-              href="https://github.com/kurone-kito/launchpad-icons"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
-              >VRC Icons (Launchpad Icons)</a
-            >{" "}
-            <span class="text-slate-500 dark:text-slate-400">
-              by Kurone Kito — MIT License (dual-licensed MIT / CC BY 4.0, MIT
-              applied by default); used for the VRChat icon
-            </span>
-          </li>
-          <li>
-            <a
-              href="https://charat.me/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500 dark:text-white dark:decoration-slate-600"
-              >CHARAT avatar artwork</a
-            >{" "}
-            <span class="text-slate-500 dark:text-slate-400">
-              by LIBRE (Ameniwa) — created with CHARAT and used per the CHARAT
-              usage guidelines; no credit required for profile-icon use, listed
-              here as a courtesy
-            </span>
-          </li>
-        </ul>
-      </section>
+      {
+        LICENSE_CATEGORIES.map((category) => (
+          <section>
+            <h3 class={categoryHeadingClass}>{category.title}</h3>
+            <ul class="space-y-2">
+              {category.items.map((item) => (
+                <li>
+                  <ExternalLink href={item.href} variant="underline">
+                    {item.label}
+                  </ExternalLink>{" "}
+                  <span class={licenseNoteClass}>{item.note}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
     </div>
   </div>
 </dialog>
