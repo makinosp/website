@@ -76,8 +76,8 @@ const licenseNoteClass = "text-slate-500 dark:text-slate-400";
   const openButton = document.getElementById("licenses-open");
   const closeButton = document.getElementById("licenses-close");
 
-  const isDialog = (el: Element | null): el is HTMLDialogElement =>
-    el instanceof HTMLDialogElement;
+  const isDialog = (element: Element | null): element is HTMLDialogElement =>
+    element instanceof HTMLDialogElement;
 
   openButton?.addEventListener("click", () => {
     if (isDialog(modal)) modal.showModal();
