@@ -1,0 +1,13 @@
+{
+  "rules": {
+    "func-style": [
+      "error",
+      "expression",
+      {
+        "overrides": {
+          "namedExports": "expression"
+        }
+      }
+    ]
+  }
+}

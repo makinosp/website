@@ -41,13 +41,13 @@ const INITIAL_COUNTS: EventCounts = {
 };
 
 /** Calculate the date N days ago in ISO 8601 format (UTC) */
-export function getDaysAgo(days: number = RECENT_DAYS): string {
+export const getDaysAgo = (days: number = RECENT_DAYS): string => {
   const date = new Date();
   date.setUTCDate(date.getUTCDate() - days);
   return date.toISOString();
 }
 
-export function countEvents(events: EventResponse[]): EventCounts {
+export const countEvents = (events: EventResponse[]): EventCounts => {
   return events.reduce<EventCounts>(
     (counts, event) => {
       switch (event.type) {
@@ -73,7 +73,7 @@ export function countEvents(events: EventResponse[]): EventCounts {
 }
 
 /** Aggregate filtered events into display-ready activity stats */
-export function buildActivityStats(events: EventResponse[]): ActivityStats {
+export const buildActivityStats = (events: EventResponse[]): ActivityStats => {
   const { commits, pullRequests, codeReviews, issues } = countEvents(events);
   const total = commits + pullRequests + codeReviews + issues;
   const toPercent = (count: number): number =>
@@ -92,10 +92,10 @@ export function buildActivityStats(events: EventResponse[]): ActivityStats {
 }
 
 /** Fetch public events within the recent window using pagination (browser safe) */
-export async function fetchRecentEvents(
+export const fetchRecentEvents = async (
   username: string = USERNAME,
   days: number = RECENT_DAYS,
-): Promise<EventResponse[]> {
+): Promise<EventResponse[]> => {
   const cutoff = getDaysAgo(days);
   const allEvents: EventResponse[] = [];
   let page = 1;
@@ -143,10 +143,10 @@ interface CachedActivity {
 }
 
 /** Load cached activity stats when still fresh, otherwise null */
-export function loadCachedActivity(
+export const loadCachedActivity = (
   now: number = Date.now(),
   key: string = CACHE_KEY,
-): ActivityStats | null {
+): ActivityStats | null => {
   try {
     const raw = localStorage.getItem(key);
     if (!raw) {
@@ -163,11 +163,11 @@ export function loadCachedActivity(
 }
 
 /** Persist activity stats with a fetch timestamp */
-export function saveCachedActivity(
+export const saveCachedActivity = (
   stats: ActivityStats,
   now: number = Date.now(),
   key: string = CACHE_KEY,
-): void {
+): void => {
   try {
     const payload: CachedActivity = { fetchedAt: now, stats };
     localStorage.setItem(key, JSON.stringify(payload));
@@ -177,10 +177,10 @@ export function saveCachedActivity(
 }
 
 /** Fetch fresh activity stats and update the cache */
-export async function fetchActivityStats(
+export const fetchActivityStats = async (
   username: string = USERNAME,
   days: number = RECENT_DAYS,
-): Promise<ActivityStats> {
+): Promise<ActivityStats> => {
   const events = await fetchRecentEvents(username, days);
   const stats = buildActivityStats(events);
   saveCachedActivity(stats);
@@ -206,9 +206,9 @@ interface CachedTopRepos {
   repos: TopRepo[];
 }
 
-export async function fetchTopRepos(
+export const fetchTopRepos = async (
   limit: number = TOP_REPOS_LIMIT,
-): Promise<TopRepo[]> {
+): Promise<TopRepo[]> => {
   const response = await fetch(
     `${GITHUB_API}/users/${USERNAME}/repos?per_page=${PER_PAGE}&type=owner&sort=pushed&direction=desc`,
     {
@@ -237,10 +237,10 @@ export async function fetchTopRepos(
     }));
 }
 
-export function loadCachedTopRepos(
+export const loadCachedTopRepos = (
   now: number = Date.now(),
   key: string = TOP_REPOS_CACHE_KEY,
-): TopRepo[] | null {
+): TopRepo[] | null => {
   try {
     const raw = localStorage.getItem(key);
     if (!raw) return null;
@@ -252,11 +252,11 @@ export function loadCachedTopRepos(
   }
 }
 
-export function saveCachedTopRepos(
+export const saveCachedTopRepos = (
   repos: TopRepo[],
   now: number = Date.now(),
   key: string = TOP_REPOS_CACHE_KEY,
-): void {
+): void => {
   try {
     const payload: CachedTopRepos = { fetchedAt: now, repos };
     localStorage.setItem(key, JSON.stringify(payload));
@@ -265,9 +265,9 @@ export function saveCachedTopRepos(
   }
 }
 
-export async function fetchTopReposWithCache(
+export const fetchTopReposWithCache = async (
   limit: number = TOP_REPOS_LIMIT,
-): Promise<TopRepo[]> {
+): Promise<TopRepo[]> => {
   const cached = loadCachedTopRepos();
   if (cached) return cached;
   const repos = await fetchTopRepos(limit);

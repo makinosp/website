@@ -18,8 +18,6 @@ const loadingPushes = stats?.loadingPushes ?? "Loading recent pushes…";
 const loadingActivity = stats?.loadingActivity ?? "Loading activity…";
 const loadError =
 	stats?.loadError ?? "Could not load GitHub activity. Please try again later.";
-const topReposLoadError =
-	stats?.topReposLoadError ?? "Could not load top repositories. Please try again later.";
 const activityLabels = stats?.labels ?? {
 	commits: "Commits",
 	pullRequests: "Pull requests",
@@ -100,7 +98,8 @@ const skeletonBar =
 			id="github-top-repos-error"
 			class="text-sm text-red-600 dark:text-red-400 mt-2"
 			hidden
-		></p>
+		>
+		</p>
 	</Card>
 </Section>
 
@@ -119,7 +118,7 @@ const skeletonBar =
 	const activityEl = document.getElementById("github-activity");
 	const errorEl = document.getElementById("github-stats-error");
 
-	function renderActivity(stats: ActivityStats) {
+	const renderActivity = (stats: ActivityStats) => {
 		if (pushEl) {
 			pushEl.textContent = String(stats.recentPushes);
 		}
@@ -147,9 +146,9 @@ const skeletonBar =
 				activityEl.append(row);
 			});
 		}
-	}
+	};
 
-	function renderError() {
+	const renderError = () => {
 		if (pushEl) {
 			pushEl.textContent = "—";
 		}
@@ -162,9 +161,9 @@ const skeletonBar =
 				"Could not load GitHub activity. Please try again later.";
 			errorEl.hidden = false;
 		}
-	}
+	};
 
-	async function loadActivity() {
+	const loadActivity = async () => {
 		const cached = loadCachedActivity();
 		if (cached) {
 			renderActivity(cached);
@@ -176,14 +175,14 @@ const skeletonBar =
 		} catch {
 			renderError();
 		}
-	}
+	};
 
 	void loadActivity();
 
 	const topReposEl = document.getElementById("github-top-repos");
 	const topReposErrorEl = document.getElementById("github-top-repos-error");
 
-	function renderTopRepos(repos: TopRepo[]) {
+	const renderTopRepos = (repos: TopRepo[]) => {
 		if (!topReposEl) return;
 		topReposEl.innerHTML = "";
 		repos.forEach((repo) => {
@@ -194,8 +193,7 @@ const skeletonBar =
 			link.href = repo.htmlUrl;
 			link.target = "_blank";
 			link.rel = "noopener noreferrer";
-			link.className =
-				"text-blue-600 dark:text-blue-400 hover:underline";
+			link.className = "text-blue-600 dark:text-blue-400 hover:underline";
 			link.textContent = repo.name;
 
 			const lang = document.createElement("span");
@@ -205,18 +203,18 @@ const skeletonBar =
 			row.append(link, lang);
 			topReposEl.append(row);
 		});
-	}
+	};
 
-	function renderTopReposError() {
+	const renderTopReposError = () => {
 		if (topReposEl) topReposEl.innerHTML = "";
 		if (topReposErrorEl) {
 			topReposErrorEl.textContent =
 				"Could not load top repositories. Please try again later.";
 			topReposErrorEl.hidden = false;
 		}
-	}
+	};
 
-	async function loadTopRepos() {
+	const loadTopRepos = async () => {
 		const cached = loadCachedTopRepos();
 		if (cached) {
 			renderTopRepos(cached);
@@ -228,7 +226,7 @@ const skeletonBar =
 		} catch {
 			renderTopReposError();
 		}
-	}
+	};
 
 	void loadTopRepos();
 </script>

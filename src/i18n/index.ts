@@ -12,11 +12,11 @@ const DICTIONARIES: Record<Locale, Dictionary> = {
   "zh-cn": zhCn,
 };
 
-export function getDictionary(locale: Locale): Dictionary {
+export const getDictionary = (locale: Locale): Dictionary => {
   return DICTIONARIES[locale];
 }
 
-export function formatTemplate(template: string, values: Record<string, string | number>): string {
+export const formatTemplate = (template: string, values: Record<string, string | number>): string => {
   return template.replace(/\{(\w+)\}/g, (match, key: string) => {
     const value = values[key];
     return value === undefined ? match : String(value);

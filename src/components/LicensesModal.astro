@@ -29,10 +29,10 @@ const CATEGORY_TITLE_KEYS = [
   "icons",
 ] as const;
 
-function getCategoryTitle(index: number, fallback: string): string {
+const getCategoryTitle = (index: number, fallback: string): string => {
   const key = CATEGORY_TITLE_KEYS[index];
   return key ? (categoryTitles[key] ?? fallback) : fallback;
-}
+};
 
 const categoryHeadingClass =
   "mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400";
