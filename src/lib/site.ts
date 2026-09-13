@@ -1,4 +1,4 @@
-export const USERNAME = "makinosp";
+export const USERNAME = "mknnjp";
 
 export const SITE_NAME = "me.mknn.jp";
 

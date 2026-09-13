@@ -13,10 +13,10 @@ export const SOCIAL_LINKS: SocialLink[] = [
     href: "https://discord.com/channels/@me/257326164996128770",
     icon: "simple-icons:discord",
   },
-  { label: "GitHub", href: "https://github.com/makinosp", icon: "simple-icons:github" },
+  { label: "GitHub", href: "https://github.com/mknnjp", icon: "simple-icons:github" },
   {
     label: "Instagram",
-    href: "https://www.instagram.com/makinosp/",
+    href: "https://www.instagram.com/mknn.jp/",
     icon: "simple-icons:instagram",
   },
   { label: "QQ", icon: "simple-icons:tencentqq", modal: "qq" },

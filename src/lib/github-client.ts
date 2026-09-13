@@ -214,7 +214,7 @@ export async function fetchTopRepos(
     {
       headers: {
         Accept: "application/vnd.github+json",
-        "User-Agent": "makinosp-website-build",
+        "User-Agent": "mknnjp-website-build",
       },
     },
   );
@@ -222,7 +222,7 @@ export async function fetchTopRepos(
     const remaining = response.headers.get("x-ratelimit-remaining");
     throw new Error(
       `GitHub API request failed: ${response.status} ${response.statusText}` +
-        (remaining !== null ? ` (rate-limit remaining: ${remaining})` : ""),
+      (remaining !== null ? ` (rate-limit remaining: ${remaining})` : ""),
     );
   }
   const repos = (await response.json()) as RepoResponse[];

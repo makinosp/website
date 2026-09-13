@@ -7,7 +7,7 @@ import {
   type ActivitySlice,
 } from "./github-client.ts";
 
-const USER_AGENT = "makinosp-website-build";
+const USER_AGENT = "mknnjp-website-build";
 const ACCEPT_HEADER = "application/vnd.github+json";
 const TOP_REPOS_LIMIT = 4;
 const FALLBACK_LANGUAGE = "—";
