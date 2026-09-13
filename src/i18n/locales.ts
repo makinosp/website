@@ -25,7 +25,7 @@ export const DISPLAY_NAMES: Record<Locale, string> = {
   "zh-cn": "牧野",
 };
 
-export function getLocaleInfo(locale: Locale): LocaleInfo {
+export const getLocaleInfo = (locale: Locale): LocaleInfo => {
   const found = LOCALES.find((entry) => entry.code === locale);
   if (!found) {
     throw new Error(`Unknown locale: ${locale}`);
@@ -33,6 +33,6 @@ export function getLocaleInfo(locale: Locale): LocaleInfo {
   return found;
 }
 
-export function getLocalePath(locale: Locale): string {
+export const getLocalePath = (locale: Locale): string => {
   return getLocaleInfo(locale).path;
 }

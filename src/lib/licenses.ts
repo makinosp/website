@@ -11,7 +11,7 @@ export interface LicenseCategory {
   items: LicenseItem[];
 }
 
-function version(name: string): string {
+const version = (name: string): string => {
   const value: string | undefined =
     (pkg.dependencies as Record<string, string>)[name] ??
     (pkg.devDependencies as Record<string, string>)[name];

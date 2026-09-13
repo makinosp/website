@@ -33,7 +33,7 @@ interface RepoResponse {
   pushed_at: string;
 }
 
-async function fetchJson<T>(url: string): Promise<T> {
+const fetchJson = async <T>(url: string): Promise<T> => {
   const response = await fetch(url, {
     headers: {
       Accept: ACCEPT_HEADER,
@@ -50,9 +50,9 @@ async function fetchJson<T>(url: string): Promise<T> {
   return (await response.json()) as T;
 }
 
-export async function fetchTopRepos(
+export const fetchTopRepos = async (
   limit: number = TOP_REPOS_LIMIT,
-): Promise<TopRepo[]> {
+): Promise<TopRepo[]> => {
   const repos = await fetchJson<RepoResponse[]>(
     `${GITHUB_API}/users/${USERNAME}/repos?per_page=${PER_PAGE}&type=owner&sort=pushed&direction=desc`,
   );
@@ -67,7 +67,7 @@ export async function fetchTopRepos(
     }));
 }
 
-export async function fetchGitHubStats(): Promise<GitHubStats> {
+export const fetchGitHubStats = async (): Promise<GitHubStats> => {
   const [topRepos, events] = await Promise.all([
     fetchTopRepos(),
     fetchRecentEvents(USERNAME),
