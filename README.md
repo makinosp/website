@@ -1,6 +1,6 @@
-# mknn.jp
+# me.mknn.jp
 
-[mknn.jp](https://mknn.jp) is the personal portfolio website of Makinon, a software engineer based in Tokyo. The site is built with Astro and is available in English, Japanese, and Simplified Chinese.
+[me.mknn.jp](https://me.mknn.jp) is the personal portfolio website of Makinon, a software engineer based in Tokyo. The site is built with Astro and is available in English, Japanese, and Simplified Chinese.
 
 ## Features
 
@@ -60,7 +60,7 @@ pnpm preview
 
 | Variable | Description |
 | --- | --- |
-| `SITE_URL` | Public origin of the deployed site, including the scheme, such as `https://mknn.jp`. Set this in the Cloudflare Pages build environment. |
+| `SITE_URL` | Public origin of the deployed site, including the scheme, such as `https://me.mknn.jp`. Set this in the Cloudflare Pages build environment. |
 
 No GitHub API token is required. GitHub data is fetched from public, unauthenticated endpoints in the browser.
 

@@ -1,6 +1,6 @@
 export const USERNAME = "makinosp";
 
-export const SITE_NAME = "mknn.jp";
+export const SITE_NAME = "me.mknn.jp";
 
 export const PROFILE_NAME = "Makinon";
 
